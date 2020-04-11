@@ -113,8 +113,10 @@ class MeilisearchEngine extends Engine
 
     public function mapIds($results)
     {
-        dd($results);
-        return collect($results['hits'])->pluck('id')->values();
+        $hits = collect($results['hits']);
+        $key = key($hits->first());
+
+        return $hits->pluck($key)->values();
     }
 
     public function map(\Laravel\Scout\Builder $builder, $results, $model)
@@ -126,7 +128,7 @@ class MeilisearchEngine extends Engine
         $objectIds = collect($results['hits'])->pluck($model->first()->getKeyName())->values()->all();
         $objectIdPositions = array_flip($objectIds);
 
-        return $model->each->getScoutModelsByIds(
+        return $model->getScoutModelsByIds(
             $builder, $objectIds
         )->filter(function ($model) use ($objectIds) {
             return in_array($model->getScoutKey(), $objectIds);
@@ -137,8 +139,6 @@ class MeilisearchEngine extends Engine
 
     public function getTotalCount($results)
     {
-        dd($results);
-
         return $results['nbHits'];
     }
 
