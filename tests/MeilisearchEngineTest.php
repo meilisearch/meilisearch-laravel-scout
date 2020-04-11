@@ -59,21 +59,19 @@ class MeilisearchEngineTest extends TestCase
     /** @test */
     public function map_correctly_maps_results_to_models()
     {
-        $this->markTestSkipped('TOOD: try to prevent need of sql');
+        $this->markTestSkipped('TODO: try to prevent need of sql');
 
         $client = m::mock(Client::class);
         $engine = new MeilisearchEngine($client);
 
         $model = m::mock(stdClass::class);
-        $model->shouldReceive('getScoutModelsByIds')->andReturn($models = Collection::make([
-            new SearchableModel(['id' => 1]),
-        ]));
+        $model->shouldReceive('getScoutModelsByIds')->andReturn(Collection::make([new SearchableModel(['id' => 1])]));
 
         $builder = m::mock(Builder::class);
 
         $results = $engine->map($builder, ['nbHits' => 1, 'hits' => [
             ['id' => 1],
-        ]], $models);
+        ]], new SearchableModel());
 
         $this->assertEquals(1, count($results));
     }
@@ -81,7 +79,7 @@ class MeilisearchEngineTest extends TestCase
     /** @test */
     public function map_method_respects_order()
     {
-        $this->markTestSkipped('TOOD: try to prevent need of sql');
+        $this->markTestSkipped('TODO: try to prevent need of sql');
 
         $client = m::mock(Client::class);
         $engine = new MeilisearchEngine($client);
@@ -101,7 +99,7 @@ class MeilisearchEngineTest extends TestCase
             ['id' => 2],
             ['id' => 4],
             ['id' => 3],
-        ]], $models);
+        ]], new SearchableModel());
 
         $this->assertEquals(4, count($results));
         $this->assertEquals([
