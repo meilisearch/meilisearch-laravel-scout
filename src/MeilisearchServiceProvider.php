@@ -22,6 +22,6 @@ class MeilisearchServiceProvider extends ServiceProvider
             ], 'config');
         }
 
-        resolve(EngineManager::class)->extend('meilisearch', fn() => new MeilisearchEngine(new Client(config('meilisearch.host'))));
+        resolve(EngineManager::class)->extend('meilisearch', fn() => new MeilisearchEngine(new Client(config('meilisearch.host'), config('meilisearch.key'))));
     }
 }

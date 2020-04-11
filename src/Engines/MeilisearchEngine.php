@@ -37,7 +37,7 @@ class MeilisearchEngine extends Engine
         })->filter()->values()->all();
 
         if (!empty($objects)) {
-            $index->addDocuments($objects);
+            $index->addDocuments($objects, $objects->first()->getKeyName());
         }
     }
 
@@ -113,6 +113,7 @@ class MeilisearchEngine extends Engine
 
     public function mapIds($results)
     {
+        dd($results);
         return collect($results['hits'])->pluck('id')->values();
     }
 
@@ -122,7 +123,7 @@ class MeilisearchEngine extends Engine
             return $model->newCollection();
         }
 
-        $objectIds = collect($results['hits'])->pluck('id')->values()->all();
+        $objectIds = collect($results['hits'])->pluck($model->first()->getKeyName())->values()->all();
         $objectIdPositions = array_flip($objectIds);
 
         return $model->each->getScoutModelsByIds(
@@ -145,7 +146,7 @@ class MeilisearchEngine extends Engine
     {
         $index = $this->meilisearch->getIndex($model->searchableAs());
 
-        $index->delete();
+        $index->deleteAllDocuments();
     }
 
     protected function usesSoftDelete($model)
