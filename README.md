@@ -66,6 +66,17 @@ $ php artisan scout:index books --key book_id
 ```php
 <?php
 
+use Laravel\Scout\Searchable;
+
+class Book extends Model
+{
+    use Searchable;
+}
+```
+
+```php
+<?php
+
 class BookController extends Controller
 {
     public function store()
@@ -107,7 +118,7 @@ class BookController extends Controller
         // Delete one document
         Book::find($id)->delete();
         // Delete several documents
-        Book::whereIn('id', [1, 42])->delete();  
+        Book::destroy([1, 42]);  
         // Delete all documents /!\
         Book::query()->delete();
     }
@@ -150,16 +161,18 @@ class BookController extends Controller
 {
     public function search()
     {   
-        Book::search('prime')->paginate();
+        Book::search('mustang')->paginate();
         // with a limit of items per page:
-        Book::search('prime')->paginate(5);
+        Book::search('mustang')->paginate(5);
+        // using meilisearch response:
+        Book::search('mustang')->paginateRaw();
     }
 }
 ```
 
 ## Compatibility with MeiliSearch
 
-This package works for MeiliSearch `>=v0.9.1`.
+This package works for MeiliSearch `>=v0.10`.
 
 ## Additional notes
 You can use more advance function by reading the documentation of [MeiliSearch PHP Client](https://github.com/meilisearch/meilisearch-php)
