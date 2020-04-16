@@ -1,8 +1,8 @@
-# Larave Scout MeiliSearch
+# Laravel Scout MeiliSearch
 
 [![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)](https://img.shields.io/badge/licence-MIT-blue.svg)
 
-The Laravel scout package MeiliSearch.
+The Laravel scout package for MeiliSearch.
 
 MeiliSearch provides an ultra relevant and instant full-text search. Our solution is open-source and you can check out [our repository here](https://github.com/meilisearch/MeiliSearch).
 
@@ -139,6 +139,20 @@ class BookController extends Controller
             
             return $meilisearch->search($query, $options);
         })->limit(3)->get();
+    }
+}
+```
+
+#### Pagination
+
+```php
+class BookController extends Controller
+{
+    public function search()
+    {   
+        Book::search('prime')->paginate();
+        // with a limit of items per page:
+        Book::search('prime')->paginate(5);
     }
 }
 ```
