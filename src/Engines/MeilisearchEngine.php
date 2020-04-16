@@ -54,40 +54,16 @@ class MeilisearchEngine extends Engine
 
     public function search(\Laravel\Scout\Builder $builder)
     {
-        //TODO: better implementation of all filters.
         return $this->performSearch($builder, array_filter([
-            'offset' => optional($builder->wheres)['offset'],
-            'limit' => $builder->limit,
-            'attributesToRetrieve' => $this->attributesToRetrieve($builder),
-            'attributesToCrop' => optional($builder->wheres)['attributesToCrop'],
-            'cropLength' => optional($builder->wheres)['cropLength'],
-            'attributesToHighlight' => optional($builder->wheres)['attributesToHighlight'],
-            'filters' => optional($builder->wheres)['filters'],
-            'matches' => (bool) optional($builder->wheres)['matches'],
+            'limit' => $builder->limit
         ]));
-    }
-
-    protected function attributesToRetrieve(\Laravel\Scout\Builder $builder)
-    {
-        if (!isset($builder->wheres['attributesToRetrieve'])) {
-            return null;
-        }
-
-        return collect($builder->wheres['attributesToRetrieve'])->prepend('id')->join(',');
     }
 
     public function paginate(\Laravel\Scout\Builder $builder, $perPage, $page)
     {
-        //TODO: better pagination
-        return $this->performSearch($builder, [
-            'attributesToRetrieve' => $this->attributesToRetrieve($builder),
-            'attributesToCrop' => optional($builder->wheres)['attributesToCrop'],
-            'cropLength' => optional($builder->wheres)['cropLength'],
-            'attributesToHighlight' => optional($builder->wheres)['attributesToHighlight'],
-            'filters' => optional($builder->wheres)['filters'],
-            'offset' => $builder->wheres['offset'] ?? 0,
+        return $this->performSearch($builder, array_filter([
             'limit' => $perPage,
-        ]);
+        ]));
     }
 
     protected function performSearch(\Laravel\Scout\Builder $builder, array $options = [])
@@ -104,11 +80,6 @@ class MeilisearchEngine extends Engine
         }
 
         return $meilisearch->search($builder->query, $options);
-    }
-
-    protected function filters(\Laravel\Scout\Builder $builder)
-    {
-        return collect($builder->wheres)->map(fn($value, $key) => $value)->all();
     }
 
     public function mapIds($results)
