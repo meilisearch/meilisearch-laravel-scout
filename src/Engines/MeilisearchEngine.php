@@ -92,11 +92,11 @@ class MeilisearchEngine extends Engine
 
     public function map(\Laravel\Scout\Builder $builder, $results, $model)
     {
-        if (count($results['hits']) === 0) {
+        if (is_null($results) || count($results['hits']) === 0) {
             return $model->newCollection();
         }
 
-        $objectIds = collect($results['hits'])->pluck($model->first()->getKeyName())->values()->all();
+        $objectIds = collect($results['hits'])->pluck($model->getKeyName())->values()->all();
         $objectIdPositions = array_flip($objectIds);
 
         return $model->getScoutModelsByIds(
