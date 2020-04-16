@@ -10,10 +10,10 @@ Here is the [MeiliSearch documentation](https://docs.meilisearch.com/) 📖
 
 ## Table of Contents
 
-- [Installation](#-installation)
-- [Getting started](#-getting-started)
-- [Compatibility with MeiliSearch](#-compatibility-with-meilisearch)
-- [Additional notes](#-additional-notes)
+- [Installation](#installation)
+- [Getting started](#getting-started)
+- [Compatibility with MeiliSearch](#compatibility-with-meilisearch)
+- [Additional notes](#additional-notes)
 
 ## Installation
 
