@@ -9,7 +9,7 @@ use Shokme\Meilisearch\Engines\MeilisearchEngine;
 
 class IndexMeilisearch extends Command
 {
-    protected $signature = 'scout:index {--d|delete : Delete an existing index} {name : The name of the index}';
+    protected $signature = 'scout:index {--d|delete : Delete an existing index} {--k|key : The name of primary key} {name : The name of the index}';
 
     protected $description = 'Create or delete an index';
 
@@ -17,13 +17,21 @@ class IndexMeilisearch extends Command
     {
         $client = new Client(config('meilisearch.host'), config('meilisearch.key'));
         try {
-            if($this->option('delete')) {
+            if ($this->option('delete')) {
                 $client->deleteIndex($this->argument('name'));
                 $this->info('Index "'.$this->argument('name').'" deleted.');
 
                 return;
             }
-            $client->createIndex($this->argument('name'));
+
+            $index = $this->argument('name');
+            if ($this->option('key')) {
+                $index = [
+                    'uid' => $this->argument('name'),
+                    'primaryKey' => $this->option('key')
+                ];
+            }
+            $client->createIndex($index);
             $this->info('Index "'.$this->argument('name').'" created.');
         } catch (HTTPRequestException $exception) {
             $this->error($exception->getMessage());
