@@ -1,5 +1,5 @@
 {
-    "name": "shokme/laravel-scout-meilisearch",
+    "name": "meilisearch/meilisearch-laravel-scout",
     "description": "Laravel Scout custom engine for MeiliSearch",
     "keywords": ["meilisearch", "laravel", "scout", "search"],
     "type": "library",
