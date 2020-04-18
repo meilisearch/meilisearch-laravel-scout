@@ -1,6 +1,8 @@
 # Laravel Scout MeiliSearch
 
 [![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)](https://img.shields.io/badge/licence-MIT-blue.svg)
+[![Actions Status](https://github.com/meilisearch/meilisearch-php/workflows/Tests/badge.svg)](https://github.com/meilisearch/meilisearch-php/actions)
+[![Latest Stable Version](https://poser.pugx.org/meilisearch/meilisearch-php/version)](https://packagist.org/packages/meilisearch/meilisearch-laravel-scout)
 
 The Laravel scout package for MeiliSearch.
 
@@ -14,6 +16,7 @@ Here is the [MeiliSearch documentation](https://docs.meilisearch.com/) 📖
 - [Getting started](#getting-started)
 - [Compatibility with MeiliSearch](#compatibility-with-meilisearch)
 - [Additional notes](#additional-notes)
+- [Development Workflow](#development-workflow)
 
 ## Installation
 
@@ -84,7 +87,7 @@ class BookController extends Controller
         $book = new Book();
         $book->title = 'Pride and Prejudice';
         ...
-        $book->save();    
+        $book->save();
     }
 }
 ```
@@ -99,7 +102,7 @@ $ php artisan scout:import "App\Book"
 class BookController extends Controller
 {
     public function search()
-    {     
+    {
         // MeiliSearch is typo-tolerant:
         Book::search('harry pottre')->get();
         // Or if you want to get the result from meilisearch:
@@ -114,11 +117,11 @@ class BookController extends Controller
 class BookController extends Controller
 {
     public function destroy($id)
-    {   
+    {
         // Delete one document
         Book::find($id)->delete();
         // Delete several documents
-        Book::destroy([1, 42]);  
+        Book::destroy([1, 42]);
         // Delete all documents /!\
         Book::query()->delete();
     }
@@ -144,10 +147,10 @@ All the supported options are described in [this documentation section](https://
 class BookController extends Controller
 {
     public function customSearch()
-    {   
+    {
         Book::search('prince', function (Index $meilisearch, $query, $options) {
             $options['filters'] = 'author="Antoine de Saint-Exupéry"';
-            
+
             return $meilisearch->search($query, $options);
         })->limit(3)->get();
     }
@@ -160,7 +163,7 @@ class BookController extends Controller
 class BookController extends Controller
 {
     public function search()
-    {   
+    {
         Book::search('mustang')->paginate();
         // with a limit of items per page:
         Book::search('mustang')->paginate(5);
@@ -170,11 +173,40 @@ class BookController extends Controller
 }
 ```
 
+## Development Workflow
+
+If you want to contribute, this section describes the steps to follow.
+
+Thank you for your interest in a MeiliSearch tool! ♥️
+
+### Install dependencies
+
+```bash
+$ composer install
+```
+
+### Tests and Linter
+
+Each PR should pass the tests to be accepted.
+
+```bash
+$ vendor/bin/phpunit --color tests/
+```
+
+### Release
+
+MeiliSearch tools follow the [Semantic Versioning Convention](https://semver.org/).
+
+Once the changes are merged into `master`, you must create a release (with this name `vX.X.X`) via the GitHub interface.<br>
+A webhook will be triggered and push the new package on [Packagist](https://packagist.org/packages/meilisearch/meilisearch-laravel-scout).
+
+
 ## Compatibility with MeiliSearch
 
 This package works for MeiliSearch `>=v0.10`.
 
 ## Additional notes
+
 You can use more advance function by reading the documentation of [MeiliSearch PHP Client](https://github.com/meilisearch/meilisearch-php)
 
 This package is a custom engine of [Laravel Scout](https://laravel.com/docs/master/scout)
