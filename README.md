@@ -129,7 +129,7 @@ or you can use the artisan command to delete all documents from an index:
 $ php artisan scout:flush "App\Book"
 ```
 
-### Delete an index
+#### Delete an index
 ```bash
 $ php artisan scout:index -d books
 ```

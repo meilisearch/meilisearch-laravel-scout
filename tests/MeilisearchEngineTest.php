@@ -2,7 +2,7 @@
 
 namespace Meilisearch\Scout\Tests;
 
-use MeiliSearch\Scout\Client;
+use MeiliSearch\Client;
 use Illuminate\Database\Eloquent\Collection;
 use Laravel\Scout\Builder;
 use Meilisearch\Scout\Engines\MeilisearchEngine;
@@ -22,7 +22,7 @@ class MeilisearchEngineTest extends TestCase
     {
         $client = m::mock(Client::class);
         $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(stdClass::class));
-        $index->shouldReceive('saveObjects')->with([
+        $index->shouldReceive('addDocuments')->with([
             [
                 'id' => 1
             ]
@@ -49,24 +49,25 @@ class MeilisearchEngineTest extends TestCase
         $client = m::mock(Client::class);
         $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(stdClass::class));
         $index->shouldReceive('search')->with('mustang', [
-            'filters' => ['foo=1'],
+            'filters' => 'foo=1',
         ]);
 
         $engine = new MeilisearchEngine($client);
-        $builder = new Builder(new SearchableModel, 'mustang');
-        $builder->where('filters', ['foo=1']);
+        $builder = new Builder(new SearchableModel, 'mustang', function ($meilisearch, $query, $options) {
+            $options['filters'] = 'foo=1';
+
+            return $meilisearch->search($query, $options);
+        });
         $engine->search($builder);
     }
 
     /** @test */
     public function map_correctly_maps_results_to_models()
     {
-        $this->markTestSkipped('TODO: try to prevent need of sql');
-
         $client = m::mock(Client::class);
         $engine = new MeilisearchEngine($client);
 
-        $model = m::mock(SearchableModel::class);
+        $model = m::mock(stdClass::class);
         $model->shouldReceive(['getKeyName' => 'id']);
         $model->shouldReceive('getScoutModelsByIds')->andReturn($models = Collection::make([new SearchableModel(['id' => 1])]));
         $builder = m::mock(Builder::class);
@@ -83,8 +84,6 @@ class MeilisearchEngineTest extends TestCase
     /** @test */
     public function map_method_respects_order()
     {
-        $this->markTestSkipped('TODO: try to prevent need of sql');
-
         $client = m::mock(Client::class);
         $engine = new MeilisearchEngine($client);
 
