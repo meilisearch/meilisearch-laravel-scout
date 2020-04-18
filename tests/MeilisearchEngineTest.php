@@ -1,12 +1,12 @@
 <?php
 
-namespace Shokme\Meilisearch\Tests;
+namespace Meilisearch\Scout\Tests;
 
 use MeiliSearch\Client;
 use Illuminate\Database\Eloquent\Collection;
 use Laravel\Scout\Builder;
-use Shokme\Meilisearch\Engines\MeilisearchEngine;
-use Shokme\Meilisearch\Tests\Fixtures\SearchableModel;
+use Meilisearch\Scout\Engines\MeilisearchEngine;
+use Meilisearch\Scout\Tests\Fixtures\SearchableModel;
 use Mockery as m;
 use stdClass;
 
@@ -22,9 +22,11 @@ class MeilisearchEngineTest extends TestCase
     {
         $client = m::mock(Client::class);
         $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(stdClass::class));
-        $index->shouldReceive('saveObjects')->with([[
-            'id' => 1
-        ]]);
+        $index->shouldReceive('addDocuments')->with([
+            [
+                'id' => 1
+            ]
+        ]);
 
         $engine = new MeilisearchEngine($client);
         $engine->update(Collection::make([new SearchableModel]));
@@ -47,31 +49,34 @@ class MeilisearchEngineTest extends TestCase
         $client = m::mock(Client::class);
         $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(stdClass::class));
         $index->shouldReceive('search')->with('mustang', [
-            'filters' => ['foo=1'],
+            'filters' => 'foo=1',
         ]);
 
         $engine = new MeilisearchEngine($client);
-        $builder = new Builder(new SearchableModel, 'mustang');
-        $builder->where('filters', ['foo=1']);
+        $builder = new Builder(new SearchableModel, 'mustang', function ($meilisearch, $query, $options) {
+            $options['filters'] = 'foo=1';
+
+            return $meilisearch->search($query, $options);
+        });
         $engine->search($builder);
     }
 
     /** @test */
     public function map_correctly_maps_results_to_models()
     {
-        $this->markTestSkipped('TODO: try to prevent need of sql');
-
         $client = m::mock(Client::class);
         $engine = new MeilisearchEngine($client);
 
         $model = m::mock(stdClass::class);
-        $model->shouldReceive('getScoutModelsByIds')->andReturn(Collection::make([new SearchableModel(['id' => 1])]));
-
+        $model->shouldReceive(['getKeyName' => 'id']);
+        $model->shouldReceive('getScoutModelsByIds')->andReturn($models = Collection::make([new SearchableModel(['id' => 1])]));
         $builder = m::mock(Builder::class);
 
-        $results = $engine->map($builder, ['nbHits' => 1, 'hits' => [
-            ['id' => 1],
-        ]], new SearchableModel());
+        $results = $engine->map($builder, [
+            'nbHits' => 1, 'hits' => [
+                ['id' => 1],
+            ]
+        ], $model);
 
         $this->assertEquals(1, count($results));
     }
@@ -79,12 +84,11 @@ class MeilisearchEngineTest extends TestCase
     /** @test */
     public function map_method_respects_order()
     {
-        $this->markTestSkipped('TODO: try to prevent need of sql');
-
         $client = m::mock(Client::class);
         $engine = new MeilisearchEngine($client);
 
         $model = m::mock(stdClass::class);
+        $model->shouldReceive(['getKeyName' => 'id']);
         $model->shouldReceive('getScoutModelsByIds')->andReturn($models = Collection::make([
             new SearchableModel(['id' => 1]),
             new SearchableModel(['id' => 2]),
@@ -94,12 +98,14 @@ class MeilisearchEngineTest extends TestCase
 
         $builder = m::mock(Builder::class);
 
-        $results = $engine->map($builder, ['nbHits' => 4, 'hits' => [
-            ['id' => 1],
-            ['id' => 2],
-            ['id' => 4],
-            ['id' => 3],
-        ]], new SearchableModel());
+        $results = $engine->map($builder, [
+            'nbHits' => 4, 'hits' => [
+                ['id' => 1],
+                ['id' => 2],
+                ['id' => 4],
+                ['id' => 3],
+            ]
+        ], $model);
 
         $this->assertEquals(4, count($results));
         $this->assertEquals([

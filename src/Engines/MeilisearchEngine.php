@@ -1,6 +1,6 @@
 <?php
 
-namespace Shokme\Meilisearch\Engines;
+namespace Meilisearch\Scout\Engines;
 
 use Laravel\Scout\Engines\Engine;
 use MeiliSearch\Client as Meilisearch;

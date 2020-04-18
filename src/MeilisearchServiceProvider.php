@@ -1,13 +1,12 @@
 <?php
 
-namespace Shokme\Meilisearch;
+namespace Meilisearch\Scout;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Scout\EngineManager;
 use MeiliSearch\Client;
-use Shokme\Meilisearch\Console\IndexMeilisearch;
-use Shokme\Meilisearch\Console\RequestMeilisearch;
-use Shokme\Meilisearch\Engines\MeilisearchEngine;
+use Meilisearch\Scout\Console\IndexMeilisearch;
+use Meilisearch\Scout\Engines\MeilisearchEngine;
 
 class MeilisearchServiceProvider extends ServiceProvider
 {

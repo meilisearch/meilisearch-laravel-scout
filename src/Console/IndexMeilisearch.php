@@ -1,11 +1,11 @@
 <?php
 
-namespace Shokme\Meilisearch\Console;
+namespace Meilisearch\Scout\Console;
 
 use Illuminate\Console\Command;
 use MeiliSearch\Client;
 use MeiliSearch\Exceptions\HTTPRequestException;
-use Shokme\Meilisearch\Engines\MeilisearchEngine;
+use Meilisearch\Engines\MeilisearchEngine;
 
 class IndexMeilisearch extends Command
 {
