@@ -22,18 +22,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Shokme\\Meilisearch\\": "src"
+            "Meilisearch\\Scout\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Shokme\\Meilisearch\\Tests\\": "tests"
+            "Meilisearch\\Scout\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Shokme\\Meilisearch\\MeilisearchServiceProvider"
+                "Meilisearch\\Scout\\MeilisearchServiceProvider"
             ]
         }
     },

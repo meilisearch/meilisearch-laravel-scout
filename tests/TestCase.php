@@ -1,8 +1,8 @@
 <?php
 
-namespace Shokme\Meilisearch\Tests;
+namespace Meilisearch\Scout\Tests;
 
-use Shokme\Meilisearch\MeilisearchServiceProvider;
+use Meilisearch\Scout\MeilisearchServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {

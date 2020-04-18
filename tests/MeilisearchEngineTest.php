@@ -1,12 +1,12 @@
 <?php
 
-namespace Shokme\Meilisearch\Tests;
+namespace Meilisearch\Scout\Tests;
 
-use MeiliSearch\Client;
+use MeiliSearch\Scout\Client;
 use Illuminate\Database\Eloquent\Collection;
 use Laravel\Scout\Builder;
-use Shokme\Meilisearch\Engines\MeilisearchEngine;
-use Shokme\Meilisearch\Tests\Fixtures\SearchableModel;
+use Meilisearch\Scout\Engines\MeilisearchEngine;
+use Meilisearch\Scout\Tests\Fixtures\SearchableModel;
 use Mockery as m;
 use stdClass;
 

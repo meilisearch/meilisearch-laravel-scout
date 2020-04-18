@@ -1,6 +1,6 @@
 <?php
 
-namespace Shokme\Meilisearch\Console;
+namespace Meilisearch\Scout\Console;
 
 use Illuminate\Console\Command;
 use MeiliSearch\Client;

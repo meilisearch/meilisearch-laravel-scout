@@ -1,6 +1,6 @@
 <?php
 
-namespace Shokme\Meilisearch\Tests\Fixtures;
+namespace Meilisearch\Scout\Tests\Fixtures;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;

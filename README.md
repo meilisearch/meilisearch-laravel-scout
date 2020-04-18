@@ -20,14 +20,14 @@ Here is the [MeiliSearch documentation](https://docs.meilisearch.com/) 📖
 ### Composer
 
 ```bash
-$ composer require shokme/laravel-scout-meilisearch
+$ composer require meilisearch/meilisearch-laravel-scout
 ```
 
 ### Export configuration
 
 ```bash
 $ php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
-$ php artisan vendor:publish --provider="Shokme\Meilisearch\MeilisearchServiceProvider" --tag="config"
+$ php artisan vendor:publish --provider="Meilisearch\Scout\MeilisearchServiceProvider" --tag="config"
 ```
 
 ### Update .env
