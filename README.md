@@ -200,7 +200,6 @@ MeiliSearch tools follow the [Semantic Versioning Convention](https://semver.org
 Once the changes are merged into `master`, you must create a release (with this name `vX.X.X`) via the GitHub interface.<br>
 A webhook will be triggered and push the new package on [Packagist](https://packagist.org/packages/meilisearch/meilisearch-laravel-scout).
 
-
 ## Compatibility with MeiliSearch
 
 This package works for MeiliSearch `>=v0.10`.
