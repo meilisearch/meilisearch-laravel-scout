@@ -2,8 +2,8 @@
 
 namespace Meilisearch\Scout\Tests\Fixtures;
 
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Model;
 
 class SearchableModel extends Model
 {

@@ -2,13 +2,13 @@
 
 namespace Meilisearch\Scout\Tests;
 
+use stdClass;
+use Mockery as m;
 use MeiliSearch\Client;
-use Illuminate\Database\Eloquent\Collection;
 use Laravel\Scout\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Meilisearch\Scout\Engines\MeilisearchEngine;
 use Meilisearch\Scout\Tests\Fixtures\SearchableModel;
-use Mockery as m;
-use stdClass;
 
 class MeilisearchEngineTest extends TestCase
 {
@@ -24,8 +24,8 @@ class MeilisearchEngineTest extends TestCase
         $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(stdClass::class));
         $index->shouldReceive('addDocuments')->with([
             [
-                'id' => 1
-            ]
+                'id' => 1,
+            ],
         ]);
 
         $engine = new MeilisearchEngine($client);
@@ -75,7 +75,7 @@ class MeilisearchEngineTest extends TestCase
         $results = $engine->map($builder, [
             'nbHits' => 1, 'hits' => [
                 ['id' => 1],
-            ]
+            ],
         ], $model);
 
         $this->assertEquals(1, count($results));
@@ -93,7 +93,7 @@ class MeilisearchEngineTest extends TestCase
             new SearchableModel(['id' => 1]),
             new SearchableModel(['id' => 2]),
             new SearchableModel(['id' => 3]),
-            new SearchableModel(['id' => 4])
+            new SearchableModel(['id' => 4]),
         ]));
 
         $builder = m::mock(Builder::class);
@@ -104,7 +104,7 @@ class MeilisearchEngineTest extends TestCase
                 ['id' => 2],
                 ['id' => 4],
                 ['id' => 3],
-            ]
+            ],
         ], $model);
 
         $this->assertEquals(4, count($results));
