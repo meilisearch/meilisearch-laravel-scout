@@ -2,13 +2,25 @@
 
 namespace Meilisearch\Scout\Engines;
 
+use Laravel\Scout\Builder;
 use Laravel\Scout\Engines\Engine;
 use MeiliSearch\Client as Meilisearch;
 
 class MeilisearchEngine extends Engine
 {
-    protected Meilisearch $meilisearch;
-    protected bool $softDelete;
+    /**
+     * The Meilisearch client.
+     *
+     * @var Meilisearch
+     */
+    protected $meilisearch;
+
+    /**
+     * Determines if soft deletes for Scout are enabled or not.
+     *
+     * @var bool
+     */
+    protected $softDelete;
 
     public function __construct(Meilisearch $meilisearch, bool $softDelete = false)
     {
@@ -20,6 +32,7 @@ class MeilisearchEngine extends Engine
      * Update the given model in the index.
      *
      * @param  \Illuminate\Database\Eloquent\Collection  $models
+     *
      * @return void
      */
     public function update($models)
@@ -42,7 +55,7 @@ class MeilisearchEngine extends Engine
             return array_merge($searchableData, $model->scoutMetadata());
         })->filter()->values()->all();
 
-        if (!empty($objects)) {
+        if (! empty($objects)) {
             $index->addDocuments($objects, $models->first()->getKeyName());
         }
     }
@@ -51,6 +64,7 @@ class MeilisearchEngine extends Engine
      * Remove the given model from the index.
      *
      * @param  \Illuminate\Database\Eloquent\Collection  $models
+     *
      * @return void
      */
     public function delete($models)
@@ -58,7 +72,7 @@ class MeilisearchEngine extends Engine
         $index = $this->meilisearch->getIndex($models->first()->searchableAs());
 
         $index->deleteDocuments(
-            $models->map(fn($model) => $model->getScoutKey())
+            $models->map->getScoutKey()
                 ->values()
                 ->all()
         );
@@ -67,25 +81,27 @@ class MeilisearchEngine extends Engine
     /**
      * Perform the given search on the engine.
      *
-     * @param  \Laravel\Scout\Builder  $builder
+     * @param  Builder  $builder
+     *
      * @return mixed
      */
-    public function search(\Laravel\Scout\Builder $builder)
+    public function search(Builder $builder)
     {
         return $this->performSearch($builder, array_filter([
-            'limit' => $builder->limit
+            'limit' => $builder->limit,
         ]));
     }
 
     /**
      * Perform the given search on the engine.
      *
-     * @param  \Laravel\Scout\Builder  $builder
+     * @param  Builder  $builder
      * @param  int  $perPage
      * @param  int  $page
+     *
      * @return mixed
      */
-    public function paginate(\Laravel\Scout\Builder $builder, $perPage, $page)
+    public function paginate(Builder $builder, $perPage, $page)
     {
         return $this->performSearch($builder, array_filter([
             'limit' => $perPage,
@@ -95,11 +111,12 @@ class MeilisearchEngine extends Engine
     /**
      * Perform the given search on the engine.
      *
-     * @param  \Laravel\Scout\Builder  $builder
+     * @param  Builder  $builder
      * @param  array  $options
+     *
      * @return mixed
      */
-    protected function performSearch(\Laravel\Scout\Builder $builder, array $options = [])
+    protected function performSearch(Builder $builder, array $options = [])
     {
         $meilisearch = $this->meilisearch->getIndex($builder->index ?: $builder->model->searchableAs());
 
@@ -119,6 +136,7 @@ class MeilisearchEngine extends Engine
      * Pluck and return the primary keys of the given results.
      *
      * @param  mixed  $results
+     *
      * @return \Illuminate\Support\Collection
      */
     public function mapIds($results)
@@ -132,12 +150,13 @@ class MeilisearchEngine extends Engine
     /**
      * Map the given results to instances of the given model.
      *
-     * @param  \Laravel\Scout\Builder  $builder
+     * @param  Builder  $builder
      * @param  mixed  $results
      * @param  \Illuminate\Database\Eloquent\Model  $model
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function map(\Laravel\Scout\Builder $builder, $results, $model)
+    public function map(Builder $builder, $results, $model)
     {
         if (is_null($results) || count($results['hits']) === 0) {
             return $model->newCollection();
@@ -159,6 +178,7 @@ class MeilisearchEngine extends Engine
      * Get the total count from a raw result returned by the engine.
      *
      * @param  mixed  $results
+     *
      * @return int
      */
     public function getTotalCount($results)
@@ -170,6 +190,7 @@ class MeilisearchEngine extends Engine
      * Flush all of the model's records from the engine.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
+     *
      * @return void
      */
     public function flush($model)
@@ -183,6 +204,7 @@ class MeilisearchEngine extends Engine
      * Determine if the given model uses soft deletes.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
+     *
      * @return bool
      */
     protected function usesSoftDelete($model)
@@ -195,6 +217,7 @@ class MeilisearchEngine extends Engine
      *
      * @param  string  $method
      * @param  array  $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)
