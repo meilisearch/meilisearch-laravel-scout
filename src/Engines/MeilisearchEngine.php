@@ -143,7 +143,7 @@ class MeilisearchEngine extends Engine
     protected function filters(Builder $builder)
     {
         return collect($builder->wheres)->map(function ($value, $key) {
-            return $key . '=' . $value;
+            return $key . '=' . '"'.$value.'"';
         })->values()->implode(' AND ');
     }
 
