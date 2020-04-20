@@ -2,7 +2,7 @@
 
 [![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)](https://img.shields.io/badge/licence-MIT-blue.svg)
 [![Actions Status](https://github.com/meilisearch/meilisearch-php/workflows/Tests/badge.svg)](https://github.com/meilisearch/meilisearch-php/actions)
-[![Latest Stable Version](https://poser.pugx.org/meilisearch/meilisearch-php/version)](https://packagist.org/packages/meilisearch/meilisearch-laravel-scout)
+[![Latest Stable Version](https://poser.pugx.org/meilisearch/meilisearch-laravel-scout/version)](https://packagist.org/packages/meilisearch/meilisearch-laravel-scout)
 
 The Laravel scout package for MeiliSearch.
 
