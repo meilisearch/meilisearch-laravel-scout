@@ -152,7 +152,7 @@ class BookController extends Controller
             $options['filters'] = 'author="Antoine de Saint-Exupéry"';
 
             return $meilisearch->search($query, $options);
-        })->limit(3)->get();
+        })->take(3)->get();
     }
 }
 ```
