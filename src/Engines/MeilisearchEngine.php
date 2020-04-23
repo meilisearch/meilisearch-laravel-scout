@@ -224,7 +224,7 @@ class MeilisearchEngine extends Engine
      */
     protected function usesSoftDelete($model)
     {
-        return in_array(Illuminate\Database\Eloquent\SoftDeletes::class, class_uses_recursive($model));
+        return in_array(\Illuminate\Database\Eloquent\SoftDeletes::class, class_uses_recursive($model));
     }
 
     /**
