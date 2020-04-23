@@ -62,6 +62,19 @@ class MeilisearchEngineTest extends TestCase
     }
 
     /** @test */
+    public function mapIds_returns_empty_collection_if_no_hits()
+    {
+        $client = m::mock(Client::class);
+        $engine = new MeilisearchEngine($client);
+
+        $results = $engine->mapIds([
+            'nbHits' => 0, 'hits' => [],
+        ]);
+
+        $this->assertEquals(0, count($results));
+    }
+
+    /** @test */
     public function map_correctly_maps_results_to_models()
     {
         $client = m::mock(Client::class);

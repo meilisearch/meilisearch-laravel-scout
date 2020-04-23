@@ -156,6 +156,10 @@ class MeilisearchEngine extends Engine
      */
     public function mapIds($results)
     {
+        if (count($results['hits']) === 0) {
+            return collect();
+        }
+
         $hits = collect($results['hits']);
         $key = key($hits->first());
 
