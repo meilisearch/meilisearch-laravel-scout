@@ -37,7 +37,8 @@ class MeilisearchServiceProvider extends ServiceProvider
 
         resolve(EngineManager::class)->extend('meilisearch', function () {
             return new MeilisearchEngine(
-                new Client(config('meilisearch.host'), config('meilisearch.key'))
+                new Client(config('meilisearch.host'), config('meilisearch.key')),
+                config('scout.soft_delete', false)
             );
         });
     }
