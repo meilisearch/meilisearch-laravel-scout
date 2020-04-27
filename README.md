@@ -187,6 +187,37 @@ class BookController extends Controller
 }
 ```
 
+### Custom settings
+
+If you want to change the [settings](https://docs.meilisearch.com/references/settings.html) for example update the ranking rules you can do it with [SDK PHP for MeiliSearch](https://github.com/meilisearch/meilisearch-php), which is installed with this package.
+
+```php
+$client = new \MeiliSearch\Client(config('meilisearch.host'), config('meilisearch.key'));
+$client->getIndex('index_id')
+    ->updateRankingRules([
+        "typo",
+        "words",
+        "proximity",
+        "attribute",
+        "wordsPosition",
+        "exactness"
+    ]);
+```
+
+If you want to update the searchable attributes:
+
+```php
+$client = new \MeiliSearch\Client(config('meilisearch.host'), config('meilisearch.key'));
+$client->getIndex('index_id')
+    ->updateSearchableAttributes([
+        "title",
+        "description",
+    ]);
+```
+
+If you want to change the global settings you should be call the `updateSettings` method
+
+
 ## Development Workflow
 
 If you want to contribute, this section describes the steps to follow.
