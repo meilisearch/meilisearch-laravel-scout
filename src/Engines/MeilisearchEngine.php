@@ -107,6 +107,7 @@ class MeilisearchEngine extends Engine
         return $this->performSearch($builder, array_filter([
             'filters' => $this->filters($builder),
             'limit' => $perPage,
+            'offset' => ($page - 1) * $perPage,
         ]));
     }
 

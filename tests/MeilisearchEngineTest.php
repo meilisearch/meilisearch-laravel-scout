@@ -161,6 +161,29 @@ class MeilisearchEngineTest extends TestCase
         $engine = new MeilisearchEngine($client);
         $engine->update(Collection::make([new EmptySearchableModel]));
     }
+
+    /** @test */
+    public function pagination_correct_parameters()
+    {
+        $perPage = 5;
+        $page = 2;
+
+        $client = m::mock(Client::class);
+        $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(stdClass::class));
+        $index->shouldReceive('search')->with('mustang', [
+            'filters' => 'foo=1',
+            'limit' => $perPage,
+            'offset' => ($page - 1) * $perPage,
+        ]);
+
+        $engine = new MeilisearchEngine($client);
+        $builder = new Builder(new SearchableModel, 'mustang', function ($meilisearch, $query, $options) {
+            $options['filters'] = 'foo=1';
+
+            return $meilisearch->search($query, $options);
+        });
+        $engine->paginate($builder, $perPage, $page);
+    }
 }
 
 class CustomKeySearchableModel extends SearchableModel
