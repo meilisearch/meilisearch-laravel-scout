@@ -13,7 +13,7 @@ class IndexMeilisearch extends Command
      *
      * @var string
      */
-    protected $signature = 'scout:index {--d|delete : Delete an existing index} {--k|key : The name of primary key} {name : The name of the index}';
+    protected $signature = 'scout:index {--d|delete : Delete an existing index} {--k|key= : The name of primary key} {name : The name of the index}';
 
     /**
      * The console command description.
