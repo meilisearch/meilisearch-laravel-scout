@@ -29,8 +29,8 @@
 - [Installation](#installation)
 - [Getting started](#getting-started)
 - [Compatibility with MeiliSearch](#compatibility-with-meilisearch)
-- [Additional notes](#additional-notes)
 - [Development Workflow](#development-workflow)
+- [Additional notes](#additional-notes)
 
 ## Installation
 
@@ -187,6 +187,11 @@ class BookController extends Controller
 }
 ```
 
+## Compatibility with MeiliSearch
+
+This package is compatible with the following MeiliSearch versions:
+- `v0.10.X`
+
 ## Development Workflow
 
 If you want to contribute, this section describes the steps to follow.
@@ -213,10 +218,6 @@ MeiliSearch tools follow the [Semantic Versioning Convention](https://semver.org
 
 Once the changes are merged into `master`, you must create a release (with this name `vX.X.X`) via the GitHub interface.<br>
 A webhook will be triggered and push the new package on [Packagist](https://packagist.org/packages/meilisearch/meilisearch-laravel-scout).
-
-## Compatibility with MeiliSearch
-
-This package works for MeiliSearch `>=v0.10`.
 
 ## Additional notes
 
