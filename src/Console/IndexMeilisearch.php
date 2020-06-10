@@ -41,14 +41,14 @@ class IndexMeilisearch extends Command
                 return;
             }
 
-            $index = $this->argument('name');
+            $creation_options = [];
             if ($this->option('key')) {
-                $index = [
-                    'uid' => $this->argument('name'),
-                    'primaryKey' => $this->option('key'),
-                ];
+                $creation_options = ['primaryKey' => $this->option('key')];
             }
-            $client->createIndex($index);
+            $client->createIndex(
+                $this->argument('name'),
+                $creation_options
+            );
             $this->info('Index "'.$this->argument('name').'" created.');
         } catch (HTTPRequestException $exception) {
             $this->error($exception->getMessage());
