@@ -28,9 +28,11 @@
 
 - [Installation](#installation)
 - [Getting started](#getting-started)
+  - [Indexes](#indexes)
+  - [Search](#search)
 - [Compatibility with MeiliSearch](#compatibility-with-meilisearch)
-- [Development Workflow](#development-workflow)
 - [Additional notes](#additional-notes)
+- [Development Workflow and Contributing](#development-workflow-and-contributing)
 
 ## Installation
 
@@ -190,40 +192,20 @@ class BookController extends Controller
 ## Compatibility with MeiliSearch
 
 This package is compatible with the following MeiliSearch versions:
+- `v0.12.X`
 - `v0.11.X`
-
-## Development Workflow
-
-If you want to contribute, this section describes the steps to follow.
-
-Thank you for your interest in a MeiliSearch tool! ♥️
-
-### Install dependencies
-
-```bash
-$ composer install
-```
-
-### Tests and Linter
-
-Each PR should pass the tests to be accepted.
-
-```bash
-$ vendor/bin/phpunit --color tests/
-```
-
-### Release
-
-MeiliSearch tools follow the [Semantic Versioning Convention](https://semver.org/).
-
-Once the changes are merged into `master`, you must create a release (with this name `vX.X.X`) via the GitHub interface.<br>
-A webhook will be triggered and push the new package on [Packagist](https://packagist.org/packages/meilisearch/meilisearch-laravel-scout).
 
 ## Additional notes
 
 You can use more advance function by reading the documentation of [MeiliSearch PHP Client](https://github.com/meilisearch/meilisearch-php)
 
 This package is a custom engine of [Laravel Scout](https://laravel.com/docs/master/scout)
+
+## Development Workflow and Contributing
+
+Any new contribution is more than welcome in this project!
+
+If you want to know more about the development workflow or want to contribute, please visit our [contributing guidelines](/CONTRIBUTING.md) for detailed instructions!
 
 <hr>
 
