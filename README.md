@@ -164,7 +164,7 @@ class BookController extends Controller
 {
     public function customSearch()
     {
-        Book::search('prince', function (Index $meilisearch, $query, $options) {
+        Book::search('prince', function (Indexes $meilisearch, $query, $options) {
             $options['filters'] = 'author="Antoine de Saint-Exupéry"';
 
             return $meilisearch->search($query, $options);
@@ -193,8 +193,6 @@ class BookController extends Controller
 
 This package is compatible with the following MeiliSearch versions:
 - `v0.13.X`
-- `v0.12.X`
-- `v0.11.X`
 
 ## Additional notes
 
