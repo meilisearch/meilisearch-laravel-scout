@@ -2,14 +2,14 @@
 
 namespace Meilisearch\Scout\Tests;
 
-use MeiliSearch\Endpoints\Indexes;
-use stdClass;
-use Mockery as m;
-use MeiliSearch\Client;
-use Laravel\Scout\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Laravel\Scout\Builder;
+use MeiliSearch\Client;
+use MeiliSearch\Endpoints\Indexes;
 use Meilisearch\Scout\Engines\MeilisearchEngine;
 use Meilisearch\Scout\Tests\Fixtures\SearchableModel;
+use Mockery as m;
+use stdClass;
 
 class MeilisearchEngineTest extends TestCase
 {
@@ -30,7 +30,7 @@ class MeilisearchEngineTest extends TestCase
         ]);
 
         $engine = new MeilisearchEngine($client);
-        $engine->update(Collection::make([new SearchableModel]));
+        $engine->update(Collection::make([new SearchableModel()]));
     }
 
     /** @test */
@@ -54,7 +54,7 @@ class MeilisearchEngineTest extends TestCase
         ]);
 
         $engine = new MeilisearchEngine($client);
-        $builder = new Builder(new SearchableModel, 'mustang', function ($meilisearch, $query, $options) {
+        $builder = new Builder(new SearchableModel(), 'mustang', function ($meilisearch, $query, $options) {
             $options['filters'] = 'foo=1';
 
             return $meilisearch->search($query, $options);
@@ -138,7 +138,7 @@ class MeilisearchEngineTest extends TestCase
         $index->shouldReceive('addDocuments')->with([['id' => 'my-meilisearch-key.1']]);
 
         $engine = new MeilisearchEngine($client);
-        $engine->update(Collection::make([new CustomKeySearchableModel]));
+        $engine->update(Collection::make([new CustomKeySearchableModel()]));
     }
 
     /** @test */
@@ -149,7 +149,7 @@ class MeilisearchEngineTest extends TestCase
         $index->shouldReceive('deleteAllDocuments');
 
         $engine = new MeilisearchEngine($client);
-        $engine->flush(new CustomKeySearchableModel);
+        $engine->flush(new CustomKeySearchableModel());
     }
 
     /** @test */
@@ -160,7 +160,7 @@ class MeilisearchEngineTest extends TestCase
         $index->shouldNotReceive('addObjects');
 
         $engine = new MeilisearchEngine($client);
-        $engine->update(Collection::make([new EmptySearchableModel]));
+        $engine->update(Collection::make([new EmptySearchableModel()]));
     }
 
     /** @test */
@@ -178,7 +178,7 @@ class MeilisearchEngineTest extends TestCase
         ]);
 
         $engine = new MeilisearchEngine($client);
-        $builder = new Builder(new SearchableModel, 'mustang', function ($meilisearch, $query, $options) {
+        $builder = new Builder(new SearchableModel(), 'mustang', function ($meilisearch, $query, $options) {
             $options['filters'] = 'foo=1';
 
             return $meilisearch->search($query, $options);
@@ -210,7 +210,7 @@ class EmptySearchableModel extends SearchableModel
         $index->shouldNotReceive('addDocuments');
 
         $engine = new MeilisearchEngine($client, true);
-        $engine->update(Collection::make([new SoftDeleteEmptySearchableModel]));
+        $engine->update(Collection::make([new SoftDeleteEmptySearchableModel()]));
     }
 }
 
@@ -223,7 +223,6 @@ class SoftDeleteEmptySearchableModel extends SearchableModel
 
     public function pushSoftDeleteMetadata()
     {
-        //
     }
 
     public function scoutMetadata()

@@ -81,8 +81,6 @@ class MeilisearchEngine extends Engine
     /**
      * Perform the given search on the engine.
      *
-     * @param Builder $builder
-     *
      * @return mixed
      */
     public function search(Builder $builder)
@@ -96,7 +94,6 @@ class MeilisearchEngine extends Engine
     /**
      * Perform the given search on the engine.
      *
-     * @param Builder $builder
      * @param int $perPage
      * @param int $page
      *
@@ -113,9 +110,6 @@ class MeilisearchEngine extends Engine
 
     /**
      * Perform the given search on the engine.
-     *
-     * @param Builder $builder
-     * @param array $options
      *
      * @return mixed
      */
@@ -138,13 +132,12 @@ class MeilisearchEngine extends Engine
     /**
      * Get the filter array for the query.
      *
-     * @param \Laravel\Scout\Builder $builder
      * @return array
      */
     protected function filters(Builder $builder)
     {
         return collect($builder->wheres)->map(function ($value, $key) {
-            return $key . '=' . '"'.$value.'"';
+            return $key.'='.'"'.$value.'"';
         })->values()->implode(' AND ');
     }
 
@@ -157,7 +150,7 @@ class MeilisearchEngine extends Engine
      */
     public function mapIds($results)
     {
-        if (count($results['hits']) === 0) {
+        if (0 === count($results['hits'])) {
             return collect();
         }
 
@@ -170,15 +163,14 @@ class MeilisearchEngine extends Engine
     /**
      * Map the given results to instances of the given model.
      *
-     * @param Builder $builder
-     * @param mixed $results
+     * @param mixed                               $results
      * @param \Illuminate\Database\Eloquent\Model $model
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function map(Builder $builder, $results, $model)
     {
-        if (is_null($results) || count($results['hits']) === 0) {
+        if (is_null($results) || 0 === count($results['hits'])) {
             return $model->newCollection();
         }
 
@@ -236,7 +228,7 @@ class MeilisearchEngine extends Engine
      * Dynamically call the MeiliSearch client instance.
      *
      * @param string $method
-     * @param array $parameters
+     * @param array  $parameters
      *
      * @return mixed
      */
