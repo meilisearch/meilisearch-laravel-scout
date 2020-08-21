@@ -2,8 +2,8 @@
 
 namespace Meilisearch\Scout\Console;
 
-use MeiliSearch\Client;
 use Illuminate\Console\Command;
+use MeiliSearch\Client;
 use MeiliSearch\Exceptions\HTTPRequestException;
 
 class IndexMeilisearch extends Command
@@ -25,7 +25,7 @@ class IndexMeilisearch extends Command
     /**
      * Execute the console command.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param \Illuminate\Contracts\Events\Dispatcher $events
      *
      * @return void
      */

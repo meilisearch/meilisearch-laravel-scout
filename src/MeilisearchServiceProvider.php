@@ -2,9 +2,9 @@
 
 namespace Meilisearch\Scout;
 
-use MeiliSearch\Client;
-use Laravel\Scout\EngineManager;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Scout\EngineManager;
+use MeiliSearch\Client;
 use Meilisearch\Scout\Console\IndexMeilisearch;
 use Meilisearch\Scout\Engines\MeilisearchEngine;
 

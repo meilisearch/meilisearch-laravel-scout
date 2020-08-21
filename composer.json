@@ -10,6 +10,17 @@
             "email": "hello@jordan-massart.be"
         }
     ],
+    "scripts": {
+        "lint": [
+            "./vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --verbose --config=./.php_cs.dist --show-progress=estimating --dry-run --using-cache=yes"
+        ],
+        "lint:fix": [
+            "./vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --verbose --config=./.php_cs.dist --diff --show-progress=estimating --using-cache=no"
+        ],
+        "test": [
+            "./vendor/bin/phpunit --color tests/"
+        ]
+    },
     "require": {
         "php": "^7.2.5",
         "laravel/scout": "^8.0",
@@ -18,7 +29,8 @@
     "require-dev": {
         "orchestra/testbench": "^5.0",
         "mockery/mockery": "^1.0",
-        "phpunit/phpunit": "^9.1"
+        "phpunit/phpunit": "^9.1",
+        "friendsofphp/php-cs-fixer": "^2.16"
     },
     "autoload": {
         "psr-4": {

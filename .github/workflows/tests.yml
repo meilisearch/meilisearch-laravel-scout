@@ -1,6 +1,10 @@
 name: Tests
 
-on: [pull_request]
+on:
+    push:
+      branches:
+        - master
+    pull_request:
 
 jobs:
   tests:
@@ -11,5 +15,7 @@ jobs:
       run: composer validate
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
-    - name: Run test suite
-      run: vendor/bin/phpunit --color tests/
+    - name: Run tests
+      run: composer test
+    - name: Run linter
+      run: composer lint

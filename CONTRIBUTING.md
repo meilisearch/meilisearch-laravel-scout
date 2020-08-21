@@ -37,10 +37,15 @@ $ composer install
 
 ### Tests and Linter
 
-Each PR should pass the tests to be accepted.
+Each PR should pass the tests and the linter to be accepted.
 
 ```bash
-$ vendor/bin/phpunit --color tests/
+# Tests
+$ composer test
+# Linter (with auto-fix)
+$ composer lint:fix
+# Linter (without auto-fix)
+$ composer lint
 ```
 
 ### Release Process
