@@ -41,7 +41,7 @@ class MeilisearchEngine extends Engine
             return;
         }
 
-        $index = $this->meilisearch->getIndex($models->first()->searchableAs());
+        $index = $this->meilisearch->getOrCreateIndex($models->first()->searchableAs(), ['primaryKey' => $models->first()->getKeyName()]);
 
         if ($this->usesSoftDelete($models->first()) && $this->softDelete) {
             $models->each->pushSoftDeleteMetadata();
