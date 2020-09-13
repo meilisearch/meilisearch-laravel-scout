@@ -22,7 +22,7 @@ class MeilisearchEngineTest extends TestCase
     public function update_adds_objects_to_index()
     {
         $client = m::mock(Client::class);
-        $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(Indexes::class));
+        $client->shouldReceive('getOrCreateIndex')->with('table', ['primaryKey' => 'id'])->andReturn($index = m::mock(Indexes::class));
         $index->shouldReceive('addDocuments')->with([
             [
                 'id' => 1,
@@ -134,7 +134,7 @@ class MeilisearchEngineTest extends TestCase
     public function a_model_is_indexed_with_a_custom_meilisearch_key()
     {
         $client = m::mock(Client::class);
-        $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(Indexes::class));
+        $client->shouldReceive('getOrCreateIndex')->with('table', ['primaryKey' => 'id'])->andReturn($index = m::mock(Indexes::class));
         $index->shouldReceive('addDocuments')->with([['id' => 'my-meilisearch-key.1']]);
 
         $engine = new MeilisearchEngine($client);
@@ -156,7 +156,7 @@ class MeilisearchEngineTest extends TestCase
     public function update_empty_searchable_array_does_not_add_objects_to_index()
     {
         $client = m::mock(Client::class);
-        $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(Indexes::class));
+        $client->shouldReceive('getOrCreateIndex')->with('table', ['primaryKey' => 'id'])->andReturn($index = m::mock(Indexes::class));
         $index->shouldNotReceive('addObjects');
 
         $engine = new MeilisearchEngine($client);
