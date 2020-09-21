@@ -189,6 +189,60 @@ class BookController extends Controller
 }
 ```
 
+### Faceted search
+
+If you want to use [faceted search](https://docs.meilisearch.com/guides/advanced_guides/faceted_search.html), create a file `app\Service\RegisterSearchFacets.php` with the following contents:
+
+```php
+namespace App\Service;
+
+use Laravel\Scout\EngineManager;
+use Laravel\Scout\Events\ModelsImported;
+
+class RegisterSearchFacets
+{
+    public function handle(ModelsImported $event)
+    {
+        $model = $event->models->first();
+
+        $facets = $model->facets ?? null;
+
+        if ($facets !== null) {
+            app(EngineManager::class)
+                ->driver('meilisearch')
+                ->getIndex($model->searchableAs())
+                ->updateAttributesForFaceting($facets);
+
+            return;
+        }
+    }
+}
+```
+
+and register it by adding the following code to `app\Providers\EventServiceProvider.php`:
+
+```php
+    protected $listen = [
+        // ...
+        \Laravel\Scout\Events\ModelsImported::class => [ \App\Service\RegisterSearchFacets::class ],
+    ];
+```
+
+You can now define your model's facets in a (new!) public property called `facets`, as follows:
+
+```php
+class Book extends Model
+{
+    use Searchable;
+
+    // ...
+
+    public $facets = [
+        'author',
+        'genre',
+    ];
+```
+
 ## Compatibility with MeiliSearch
 
 This package is compatible with the following MeiliSearch versions:
