@@ -42,6 +42,31 @@
 $ composer require meilisearch/meilisearch-laravel-scout
 ```
 
+### HTTP Client
+
+You could use any [PSR-18](https://www.php-fig.org/psr/psr-18/) compatible client to use with this SDK. No additional configurations required.<br>
+A list of compatible HTTP clients and client adapters can be found at [php-http.org](http://docs.php-http.org/en/latest/clients.html).
+
+If you use **Laravel 8** you can skip this section as laravel pre-install Guzzle 7 by default.
+
+Guzzle 6:
+
+```bash
+$ composer require php-http/guzzle6-adapter
+```
+
+Symfony Http Client:
+
+```bash
+$ composer require symfony/http-client nyholm/psr7
+```
+
+Curl:
+
+```bash
+$ composer require php-http/curl-client nyholm/psr7
+```
+
 ### Export configuration
 
 ```bash
