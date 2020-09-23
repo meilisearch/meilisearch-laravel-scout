@@ -36,13 +36,13 @@
 
 ## Installation
 
-### Composer
+### Install the Plugin
 
 ```bash
 $ composer require meilisearch/meilisearch-laravel-scout
 ```
 
-### HTTP Client
+### Install the HTTP Client
 
 You could use any [PSR-18](https://www.php-fig.org/psr/psr-18/) compatible client to use with this SDK. No additional configurations are required.<br>
 A list of compatible HTTP clients and client adapters can be found at [php-http.org](http://docs.php-http.org/en/latest/clients.html).
