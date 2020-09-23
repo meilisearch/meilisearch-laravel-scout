@@ -49,6 +49,17 @@ A list of compatible HTTP clients and client adapters can be found at [php-http.
 
 If you use **Laravel 8** you can skip this section as laravel pre-install Guzzle 7 by default.
 
+Guzzle 7:
+```bash
+$ composer require guzzlehttp/guzzle
+```
+If you already have guzzle installed with a version < 7, don't forget to update the version inside your composer.json
+```json
+"require": {
+  "guzzlehttp/guzzle": "^7.0"
+}
+```
+
 Guzzle 6:
 
 ```bash
