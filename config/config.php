@@ -25,7 +25,7 @@ return [
     |
     | This value is used to authenticate with your MeiliSearch instance. During
     | development this is not required, but it MUST be set during a production
-    | environemtn.
+    | environment.
     |
     | For more information on the master key, check out the MeiliSearch
     | documentation here:
