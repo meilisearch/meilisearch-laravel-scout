@@ -18,6 +18,7 @@
   <a href="https://github.com/meilisearch/meilisearch-laravel-scout/actions"><img src="https://github.com/meilisearch/meilisearch-laravel-scout/workflows/Tests/badge.svg" alt="Actions Status"></a>
   <a href="https://github.com/meilisearch/meilisearch-laravel-scout/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-informational" alt="License"></a>
   <a href="https://slack.meilisearch.com"><img src="https://img.shields.io/badge/slack-MeiliSearch-blue.svg?logo=slack" alt="Slack"></a>
+  <a href="https://app.bors.tech/repositories/29019"><img src="https://bors.tech/images/badge_small.svg" alt="Bors enabled"></a>
 </p>
 
 <p align="center">⚡ The MeiliSearch driver for Laravel Scout</p>
@@ -27,10 +28,11 @@
 ## Table of Contents
 
 - [Installation](#installation)
-- [Getting started](#getting-started)
+- [Getting Started](#getting-started)
   - [Indexes](#indexes)
   - [Search](#search)
 - [Compatibility with MeiliSearch](#compatibility-with-meilisearch)
+- [Documentation](#documentation)
 - [Additional notes](#additional-notes)
 - [Development Workflow and Contributing](#development-workflow-and-contributing)
 
@@ -103,7 +105,7 @@ $ docker run -it --rm -p 7700:7700 getmeili/meilisearch:latest ./meilisearch --m
 
 NB: you can also download MeiliSearch from **Homebrew** or **APT**.
 
-## Getting started
+## Getting Started
 
 ### Indexes
 
@@ -193,7 +195,7 @@ $ php artisan scout:index -d books
 
 #### Custom search
 
-All the supported options are described in [this documentation section](https://docs.meilisearch.com/references/search.html#search-in-an-index).
+All the supported options are described in the [search parameters](https://docs.meilisearch.com/guides/advanced_guides/search_parameters.html) section of the documentation.
 
 ```php
 class BookController extends Controller
@@ -228,6 +230,10 @@ class BookController extends Controller
 ## Compatibility with MeiliSearch
 
 This package only guarantees the compatibility with the [version v0.15.0 of MeiliSearch](https://github.com/meilisearch/MeiliSearch/releases/tag/v0.15.0).
+
+## Documentation
+
+See our [Documentation](https://docs.meilisearch.com/guides/introduction/quick_start_guide.html) and the [Wiki](https://github.com/meilisearch/meilisearch-laravel-scout/wiki) of this repository.
 
 ## Additional notes
 
