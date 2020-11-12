@@ -11,7 +11,7 @@ on:
 
 jobs:
   tests:
-    name: laravel-scout-tests
+    name: tests
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -21,5 +21,15 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest
     - name: Run tests
       run: composer test
+
+  linter:
+    name: linter-check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
     - name: Run linter
       run: composer lint
