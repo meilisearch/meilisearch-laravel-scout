@@ -32,4 +32,6 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
     - name: Run linter
+      env:
+        PHP_CS_FIXER_IGNORE_ENV: 1
       run: composer lint

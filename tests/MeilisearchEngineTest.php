@@ -19,7 +19,7 @@ class MeilisearchEngineTest extends TestCase
     }
 
     /** @test */
-    public function update_adds_objects_to_index()
+    public function updateAddsObjectsToIndex()
     {
         $client = m::mock(Client::class);
         $client->shouldReceive('getOrCreateIndex')->with('table', ['primaryKey' => 'id'])->andReturn($index = m::mock(Indexes::class));
@@ -34,7 +34,7 @@ class MeilisearchEngineTest extends TestCase
     }
 
     /** @test */
-    public function delete_removes_objects_to_index()
+    public function deleteRemovesObjectsToIndex()
     {
         $client = m::mock(Client::class);
         $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(Indexes::class));
@@ -45,7 +45,7 @@ class MeilisearchEngineTest extends TestCase
     }
 
     /** @test */
-    public function search_sends_correct_parameters_to_meilisearch()
+    public function searchSendsCorrectParametersToMeilisearch()
     {
         $client = m::mock(Client::class);
         $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(Indexes::class));
@@ -63,7 +63,7 @@ class MeilisearchEngineTest extends TestCase
     }
 
     /** @test */
-    public function mapIds_returns_empty_collection_if_no_hits()
+    public function mapIdsReturnsEmptyCollectionIfNoHits()
     {
         $client = m::mock(Client::class);
         $engine = new MeilisearchEngine($client);
@@ -76,7 +76,7 @@ class MeilisearchEngineTest extends TestCase
     }
 
     /** @test */
-    public function map_correctly_maps_results_to_models()
+    public function mapCorrectlyMapsResultsToModels()
     {
         $client = m::mock(Client::class);
         $engine = new MeilisearchEngine($client);
@@ -96,7 +96,7 @@ class MeilisearchEngineTest extends TestCase
     }
 
     /** @test */
-    public function map_method_respects_order()
+    public function mapMethodRespectsOrder()
     {
         $client = m::mock(Client::class);
         $engine = new MeilisearchEngine($client);
@@ -131,7 +131,7 @@ class MeilisearchEngineTest extends TestCase
     }
 
     /** @test */
-    public function a_model_is_indexed_with_a_custom_meilisearch_key()
+    public function aModelIsIndexedWithACustomMeilisearchKey()
     {
         $client = m::mock(Client::class);
         $client->shouldReceive('getOrCreateIndex')->with('table', ['primaryKey' => 'id'])->andReturn($index = m::mock(Indexes::class));
@@ -142,7 +142,7 @@ class MeilisearchEngineTest extends TestCase
     }
 
     /** @test */
-    public function flush_a_model_with_a_custom_meilisearch_key()
+    public function flushAModelWithACustomMeilisearchKey()
     {
         $client = m::mock(Client::class);
         $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(Indexes::class));
@@ -153,7 +153,7 @@ class MeilisearchEngineTest extends TestCase
     }
 
     /** @test */
-    public function update_empty_searchable_array_does_not_add_objects_to_index()
+    public function updateEmptySearchableArrayDoesNotAddObjectsToIndex()
     {
         $client = m::mock(Client::class);
         $client->shouldReceive('getOrCreateIndex')->with('table', ['primaryKey' => 'id'])->andReturn($index = m::mock(Indexes::class));
@@ -164,7 +164,7 @@ class MeilisearchEngineTest extends TestCase
     }
 
     /** @test */
-    public function pagination_correct_parameters()
+    public function paginationCorrectParameters()
     {
         $perPage = 5;
         $page = 2;

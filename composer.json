@@ -22,7 +22,7 @@
         ]
     },
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.2|^8.0",
         "laravel/scout": "^8.0",
         "meilisearch/meilisearch-php": "^0.15",
         "http-interop/http-factory-guzzle": "^1.0"
