@@ -92,15 +92,9 @@ _[Read more about this](https://github.com/meilisearch/integration-guides/blob/m
 
 ### How to Publish the Release
 
-Make a PR modifying the file [`package.json`](/package.json) with the right version.
+Once the changes are merged on `master`, you can publish the current draft release via the [GitHub interface](https://github.com/meilisearch/meilisearch-laravel-scout/releases).
 
-```javascript
-"version": "X.X.X"
-```
-
-Once the changes are merged on `master`, you can publish the current draft release via the [GitHub interface](https://github.com/meilisearch/instant-meilisearch/releases).
-
-GitHub Actions will be triggered and push the package to [npm](https://www.npmjs.com/package/@meilisearch/instant-meilisearch).
+A WebHook will be triggered and push the package to [Packagist](https://packagist.org/packages/meilisearch/meilisearch-laravel-scout).
 
 <hr>
 
