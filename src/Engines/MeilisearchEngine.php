@@ -34,6 +34,7 @@ class MeilisearchEngine extends Engine
      * @param \Illuminate\Database\Eloquent\Collection $models
      *
      * @return void
+     * @throws \MeiliSearch\Exceptions\HTTPRequestException
      */
     public function update($models)
     {
@@ -69,7 +70,7 @@ class MeilisearchEngine extends Engine
      */
     public function delete($models)
     {
-        $index = $this->meilisearch->getIndex($models->first()->searchableAs());
+        $index = $this->meilisearch->index($models->first()->searchableAs());
 
         $index->deleteDocuments(
             $models->map->getScoutKey()
@@ -115,7 +116,7 @@ class MeilisearchEngine extends Engine
      */
     protected function performSearch(Builder $builder, array $options = [])
     {
-        $meilisearch = $this->meilisearch->getIndex($builder->index ?: $builder->model->searchableAs());
+        $meilisearch = $this->meilisearch->index($builder->index ?: $builder->model->searchableAs());
 
         if ($builder->callback) {
             return call_user_func(
@@ -132,7 +133,7 @@ class MeilisearchEngine extends Engine
     /**
      * Get the filter array for the query.
      *
-     * @return array
+     * @return string
      */
     protected function filters(Builder $builder)
     {
@@ -207,7 +208,7 @@ class MeilisearchEngine extends Engine
      */
     public function flush($model)
     {
-        $index = $this->meilisearch->getIndex($model->searchableAs());
+        $index = $this->meilisearch->index($model->searchableAs());
 
         $index->deleteAllDocuments();
     }
