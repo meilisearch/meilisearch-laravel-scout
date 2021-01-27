@@ -34,6 +34,7 @@ class MeilisearchEngine extends Engine
      * @param \Illuminate\Database\Eloquent\Collection $models
      *
      * @return void
+     *
      * @throws \MeiliSearch\Exceptions\HTTPRequestException
      */
     public function update($models)
@@ -114,7 +115,7 @@ class MeilisearchEngine extends Engine
      *
      * @return mixed
      */
-    protected function performSearch(Builder $builder, array $options = [])
+    protected function performSearch(Builder $builder, array $searchParams = [])
     {
         $meilisearch = $this->meilisearch->index($builder->index ?: $builder->model->searchableAs());
 
@@ -123,11 +124,11 @@ class MeilisearchEngine extends Engine
                 $builder->callback,
                 $meilisearch,
                 $builder->query,
-                $options
+                $searchParams
             );
         }
 
-        return $meilisearch->search($builder->query, $options);
+        return $meilisearch->rawSearch($builder->query, $searchParams);
     }
 
     /**
