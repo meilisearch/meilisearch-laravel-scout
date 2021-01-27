@@ -11,10 +11,17 @@ on:
 
 jobs:
   tests:
-    name: tests
+    strategy:
+      matrix:
+        php-versions: ['7.3', '7.4', '8.0']
+    name: tests (php ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Install PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
     - name: Validate composer.json and composer.lock
       run: composer validate
     - name: Install dependencies
@@ -27,6 +34,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Install PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 7.4
     - name: Validate composer.json and composer.lock
       run: composer validate
     - name: Install dependencies
