@@ -37,7 +37,7 @@ class MeilisearchEngineTest extends TestCase
     public function deleteRemovesObjectsToIndex()
     {
         $client = m::mock(Client::class);
-        $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(Indexes::class));
+        $client->shouldReceive('index')->with('table')->andReturn($index = m::mock(Indexes::class));
         $index->shouldReceive('deleteDocuments')->with([1]);
 
         $engine = new MeilisearchEngine($client);
@@ -48,7 +48,7 @@ class MeilisearchEngineTest extends TestCase
     public function searchSendsCorrectParametersToMeilisearch()
     {
         $client = m::mock(Client::class);
-        $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(Indexes::class));
+        $client->shouldReceive('index')->with('table')->andReturn($index = m::mock(Indexes::class));
         $index->shouldReceive('search')->with('mustang', [
             'filters' => 'foo=1',
         ]);
@@ -145,7 +145,7 @@ class MeilisearchEngineTest extends TestCase
     public function flushAModelWithACustomMeilisearchKey()
     {
         $client = m::mock(Client::class);
-        $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(Indexes::class));
+        $client->shouldReceive('index')->with('table')->andReturn($index = m::mock(Indexes::class));
         $index->shouldReceive('deleteAllDocuments');
 
         $engine = new MeilisearchEngine($client);
@@ -170,7 +170,7 @@ class MeilisearchEngineTest extends TestCase
         $page = 2;
 
         $client = m::mock(Client::class);
-        $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(Indexes::class));
+        $client->shouldReceive('index')->with('table')->andReturn($index = m::mock(Indexes::class));
         $index->shouldReceive('search')->with('mustang', [
             'filters' => 'foo=1',
             'limit' => $perPage,
@@ -206,7 +206,7 @@ class EmptySearchableModel extends SearchableModel
     public function update_empty_searchable_array_from_soft_deleted_model_does_not_add_objects_to_index()
     {
         $client = m::mock(Client::class);
-        $client->shouldReceive('getIndex')->with('table')->andReturn($index = m::mock(Indexes::class));
+        $client->shouldReceive('index')->with('table')->andReturn($index = m::mock(Indexes::class));
         $index->shouldNotReceive('addDocuments');
 
         $engine = new MeilisearchEngine($client, true);
