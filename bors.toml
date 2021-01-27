@@ -1,3 +1,8 @@
-status = ['tests', 'linter-check']
+status = [
+    'tests (php 7.3)',
+    'tests (php 7.4)',
+    'tests (php 8.0)',
+    'linter-check'
+]
 # 1 hour timeout
 timeout-sec = 3600
