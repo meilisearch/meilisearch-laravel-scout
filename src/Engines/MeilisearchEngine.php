@@ -195,7 +195,7 @@ class MeilisearchEngine extends Engine
      */
     public function getTotalCount($results)
     {
-        return $results['nbHits'];
+        return count($results['hits']);
     }
 
     /**
