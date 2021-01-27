@@ -34,6 +34,7 @@ class MeilisearchEngine extends Engine
      * @param \Illuminate\Database\Eloquent\Collection $models
      *
      * @return void
+     *
      * @throws \MeiliSearch\Exceptions\HTTPRequestException
      */
     public function update($models)
