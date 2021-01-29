@@ -13,11 +13,6 @@ use stdClass;
 
 class MeilisearchEngineTest extends TestCase
 {
-    protected function tearDown(): void
-    {
-        m::close();
-    }
-
     /** @test */
     public function updateAddsObjectsToIndex()
     {
