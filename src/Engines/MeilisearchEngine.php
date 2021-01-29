@@ -172,11 +172,11 @@ class MeilisearchEngine extends Engine
      */
     public function map(Builder $builder, $results, $model)
     {
-        if (is_null($results) || 0 === count($results['hits'])) {
+        if (is_null($results) || 0 === $results->getHitsCount()) {
             return $model->newCollection();
         }
 
-        $objectIds = collect($results['hits'])->pluck($model->getKeyName())->values()->all();
+        $objectIds = collect($results->getHits())->pluck($model->getKeyName())->values()->all();
         $objectIdPositions = array_flip($objectIds);
 
         return $model->getScoutModelsByIds(
