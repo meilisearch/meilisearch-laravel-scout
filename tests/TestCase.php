@@ -4,7 +4,7 @@ namespace Meilisearch\Scout\Tests;
 
 use Meilisearch\Scout\MeilisearchServiceProvider;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     public function setUp(): void
     {
