@@ -208,7 +208,9 @@ class MeilisearchEngineTest extends TestCase
         Event::fake();
         $engine = new MeilisearchEngine($client);
         $engine->update(Collection::make([new CustomKeySearchableModel()]));
-        Event::assertDispatched(IndexCreated::class);
+        Event::assertDispatched(function (IndexCreated $event) use ($index) {
+            return $event->index === $index && CustomKeySearchableModel::class === $event->model;
+        });
     }
 }
 

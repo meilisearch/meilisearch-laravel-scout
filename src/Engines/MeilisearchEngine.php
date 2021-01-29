@@ -58,7 +58,7 @@ class MeilisearchEngine extends Engine
         $index = $this->meilisearch->getOrCreateIndex($models->first()->searchableAs(), ['primaryKey' => $models->first()->getKeyName()]);
 
         if ($indexShouldBeCreated) {
-            IndexCreated::dispatch($index);
+            IndexCreated::dispatch($index, get_class($models->first()));
         }
 
         if ($this->usesSoftDelete($models->first()) && $this->softDelete) {

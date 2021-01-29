@@ -16,8 +16,16 @@ class IndexCreated
      */
     public $index;
 
-    public function __construct(Indexes $index)
+    /**
+     * The model name if created via a Serachable Model.
+     *
+     * @var string
+     */
+    public $model;
+
+    public function __construct(Indexes $index, string $model = null)
     {
         $this->index = $index;
+        $this->model = $model;
     }
 }
