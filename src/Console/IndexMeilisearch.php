@@ -5,6 +5,7 @@ namespace Meilisearch\Scout\Console;
 use Illuminate\Console\Command;
 use MeiliSearch\Client;
 use MeiliSearch\Exceptions\HTTPRequestException;
+use Meilisearch\Scout\Events\IndexCreated;
 
 class IndexMeilisearch extends Command
 {
@@ -45,10 +46,13 @@ class IndexMeilisearch extends Command
             if ($this->option('key')) {
                 $creation_options = ['primaryKey' => $this->option('key')];
             }
-            $client->createIndex(
+            $index = $client->createIndex(
                 $this->argument('name'),
                 $creation_options
             );
+
+            IndexCreated::dispatch($index);
+
             $this->info('Index "'.$this->argument('name').'" created.');
         } catch (HTTPRequestException $exception) {
             $this->error($exception->getMessage());

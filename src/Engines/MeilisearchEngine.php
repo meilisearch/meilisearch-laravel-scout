@@ -5,6 +5,8 @@ namespace Meilisearch\Scout\Engines;
 use Laravel\Scout\Builder;
 use Laravel\Scout\Engines\Engine;
 use MeiliSearch\Client as Meilisearch;
+use MeiliSearch\Exceptions\HTTPRequestException;
+use Meilisearch\Scout\Events\IndexCreated;
 
 class MeilisearchEngine extends Engine
 {
@@ -43,7 +45,21 @@ class MeilisearchEngine extends Engine
             return;
         }
 
+        $indexShouldBeCreated = false;
+
+        try {
+            $this->meilisearch->getIndex($models->first()->searchableAs());
+        } catch (HTTPRequestException $e) {
+            if (\is_array($e->httpBody) && 'index_not_found' === $e->httpBody['errorCode']) {
+                $indexShouldBeCreated = true;
+            }
+        }
+
         $index = $this->meilisearch->getOrCreateIndex($models->first()->searchableAs(), ['primaryKey' => $models->first()->getKeyName()]);
+
+        if ($indexShouldBeCreated) {
+            IndexCreated::dispatch($index);
+        }
 
         if ($this->usesSoftDelete($models->first()) && $this->softDelete) {
             $models->each->pushSoftDeleteMetadata();

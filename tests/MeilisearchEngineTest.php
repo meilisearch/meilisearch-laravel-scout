@@ -3,10 +3,13 @@
 namespace Meilisearch\Scout\Tests;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Event;
 use Laravel\Scout\Builder;
 use MeiliSearch\Client;
 use MeiliSearch\Endpoints\Indexes;
+use MeiliSearch\Exceptions\HTTPRequestException;
 use Meilisearch\Scout\Engines\MeilisearchEngine;
+use Meilisearch\Scout\Events\IndexCreated;
 use Meilisearch\Scout\Tests\Fixtures\SearchableModel;
 use Mockery as m;
 use stdClass;
@@ -22,6 +25,7 @@ class MeilisearchEngineTest extends TestCase
     public function updateAddsObjectsToIndex()
     {
         $client = m::mock(Client::class);
+        $client->shouldReceive('getIndex')->with('table')->andReturn(m::mock(Indexes::class));
         $client->shouldReceive('getOrCreateIndex')->with('table', ['primaryKey' => 'id'])->andReturn($index = m::mock(Indexes::class));
         $index->shouldReceive('addDocuments')->with([
             [
@@ -134,6 +138,7 @@ class MeilisearchEngineTest extends TestCase
     public function aModelIsIndexedWithACustomMeilisearchKey()
     {
         $client = m::mock(Client::class);
+        $client->shouldReceive('getIndex')->with('table')->andReturn(m::mock(Indexes::class));
         $client->shouldReceive('getOrCreateIndex')->with('table', ['primaryKey' => 'id'])->andReturn($index = m::mock(Indexes::class));
         $index->shouldReceive('addDocuments')->with([['id' => 'my-meilisearch-key.1']]);
 
@@ -156,6 +161,7 @@ class MeilisearchEngineTest extends TestCase
     public function updateEmptySearchableArrayDoesNotAddObjectsToIndex()
     {
         $client = m::mock(Client::class);
+        $client->shouldReceive('getIndex')->with('table')->andReturn(m::mock(Indexes::class));
         $client->shouldReceive('getOrCreateIndex')->with('table', ['primaryKey' => 'id'])->andReturn($index = m::mock(Indexes::class));
         $index->shouldNotReceive('addObjects');
 
@@ -184,6 +190,25 @@ class MeilisearchEngineTest extends TestCase
             return $meilisearch->search($query, $options);
         });
         $engine->paginate($builder, $perPage, $page);
+    }
+
+    /**
+     * @test
+     */
+    public function indexCreatedEventIsThrownWhenNewIndexIsCreated()
+    {
+        $client = m::mock(Client::class);
+        $client->shouldReceive('getIndex')->with('table')->andThrow(new HTTPRequestException(404, [
+            'message' => 'Index foobar not found',
+            'errorCode' => 'index_not_found',
+        ]));
+        $client->shouldReceive('getOrCreateIndex')->with('table', ['primaryKey' => 'id'])->andReturn($index = m::mock(Indexes::class));
+        $index->shouldReceive('addDocuments')->with([['id' => 'my-meilisearch-key.1']]);
+
+        Event::fake();
+        $engine = new MeilisearchEngine($client);
+        $engine->update(Collection::make([new CustomKeySearchableModel()]));
+        Event::assertDispatched(IndexCreated::class);
     }
 }
 
