@@ -18,7 +18,7 @@
             "./vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --verbose --config=./.php_cs.dist --diff --show-progress=estimating --using-cache=no"
         ],
         "test": [
-            "./vendor/bin/phpunit --color tests/"
+            "./vendor/bin/phpunit --color"
         ]
     },
     "require": {
