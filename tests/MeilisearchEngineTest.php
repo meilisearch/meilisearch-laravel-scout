@@ -212,6 +212,7 @@ class MeilisearchEngineTest extends TestCase
     public function updateEmptySearchableArrayFromSoftDeletedModelDoesNotAddObjectsToIndex()
     {
         $client = m::mock(Client::class);
+        $client->shouldReceive('getIndex')->with('table')->andReturn(m::mock(Indexes::class));
         $client->shouldReceive('getOrCreateIndex')->with('table', ['primaryKey' => 'id'])->andReturn(m::mock(Indexes::class));
         $client->shouldReceive('index')->with('table')->andReturn($index = m::mock(Indexes::class));
         $index->shouldNotReceive('addDocuments');
