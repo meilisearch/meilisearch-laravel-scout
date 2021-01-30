@@ -16,11 +16,6 @@ use stdClass;
 
 class MeilisearchEngineTest extends TestCase
 {
-    protected function tearDown(): void
-    {
-        m::close();
-    }
-
     /** @test */
     public function updateAddsObjectsToIndex()
     {
@@ -212,6 +207,18 @@ class MeilisearchEngineTest extends TestCase
             return $event->index === $index && CustomKeySearchableModel::class === $event->model;
         });
     }
+
+    /** @test */
+    public function updateEmptySearchableArrayFromSoftDeletedModelDoesNotAddObjectsToIndex()
+    {
+        $client = m::mock(Client::class);
+        $client->shouldReceive('getOrCreateIndex')->with('table', ['primaryKey' => 'id'])->andReturn(m::mock(Indexes::class));
+        $client->shouldReceive('index')->with('table')->andReturn($index = m::mock(Indexes::class));
+        $index->shouldNotReceive('addDocuments');
+
+        $engine = new MeilisearchEngine($client, true);
+        $engine->update(Collection::make([new SoftDeleteEmptySearchableModel()]));
+    }
 }
 
 class CustomKeySearchableModel extends SearchableModel
@@ -227,17 +234,6 @@ class EmptySearchableModel extends SearchableModel
     public function toSearchableArray()
     {
         return [];
-    }
-
-    /** @test */
-    public function update_empty_searchable_array_from_soft_deleted_model_does_not_add_objects_to_index()
-    {
-        $client = m::mock(Client::class);
-        $client->shouldReceive('index')->with('table')->andReturn($index = m::mock(Indexes::class));
-        $index->shouldNotReceive('addDocuments');
-
-        $engine = new MeilisearchEngine($client, true);
-        $engine->update(Collection::make([new SoftDeleteEmptySearchableModel()]));
     }
 }
 
