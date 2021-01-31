@@ -18,6 +18,10 @@ class MeilisearchServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'meilisearch');
+
+        $this->app->singleton(Client::class, function () {
+            return new Client(config('meilisearch.host'), config('meilisearch.key'));
+        });
     }
 
     /**
@@ -37,7 +41,7 @@ class MeilisearchServiceProvider extends ServiceProvider
 
         resolve(EngineManager::class)->extend('meilisearch', function () {
             return new MeilisearchEngine(
-                new Client(config('meilisearch.host'), config('meilisearch.key')),
+                resolve(Client::class),
                 config('scout.soft_delete', false)
             );
         });

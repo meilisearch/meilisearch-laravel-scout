@@ -4,6 +4,7 @@ namespace Meilisearch\Scout\Tests;
 
 use Illuminate\Database\Eloquent\Collection;
 use Laravel\Scout\Builder;
+use Laravel\Scout\EngineManager;
 use MeiliSearch\Client;
 use MeiliSearch\Endpoints\Indexes;
 use Meilisearch\Scout\Engines\MeilisearchEngine;
@@ -13,6 +14,14 @@ use stdClass;
 
 class MeilisearchEngineTest extends TestCase
 {
+    /** @test */
+    public function clientAndEngineCanBeResolved()
+    {
+        $this->assertInstanceOf(Client::class, resolve(Client::class));
+        $this->assertInstanceOf(EngineManager::class, resolve(EngineManager::class));
+        $this->assertInstanceOf(MeilisearchEngine::class, resolve(EngineManager::class)->engine('meilisearch'));
+    }
+
     /** @test */
     public function updateAddsObjectsToIndex()
     {
