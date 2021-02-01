@@ -9,6 +9,7 @@ use MeiliSearch\Client;
 use MeiliSearch\Endpoints\Indexes;
 use Meilisearch\Scout\Engines\MeilisearchEngine;
 use Meilisearch\Scout\Tests\Fixtures\SearchableModel;
+use MeiliSearch\Search\SearchResult;
 use Mockery as m;
 use stdClass;
 
@@ -64,6 +65,70 @@ class MeilisearchEngineTest extends TestCase
             return $meilisearch->search($query, $options);
         });
         $engine->search($builder);
+    }
+
+    /**
+     * @test
+     */
+    public function submittingACallableSearchWithSearchMethodReturnsArray()
+    {
+        $builder = new Builder(
+            new SearchableModel(),
+            $query = 'mustang',
+            $callable = function ($meilisearch, $query, $options) {
+                $options['filters'] = 'foo=1';
+
+                return $meilisearch->search($query, $options);
+            }
+        );
+        $client = m::mock(Client::class);
+        $client->shouldReceive('index')->with('table')->andReturn($index = m::mock(Indexes::class));
+        $index->shouldReceive('search')->with($query, ['filters' => 'foo=1'])->andReturn(new SearchResult($expectedResult = [
+            'hits' => [],
+            'offset' => 0,
+            'limit' => 20,
+            'nbHits' => 0,
+            'exhaustiveNbHits' => false,
+            'processingTimeMs' => 1,
+            'query' => 'mustang',
+        ]));
+
+        $engine = new MeilisearchEngine($client);
+        $result = $engine->search($builder);
+
+        $this->assertSame($expectedResult, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function submittingACallableSearchWithRawSearchMethodWorks()
+    {
+        $builder = new Builder(
+            new SearchableModel(),
+            $query = 'mustang',
+            $callable = function ($meilisearch, $query, $options) {
+                $options['filters'] = 'foo=1';
+
+                return $meilisearch->rawSearch($query, $options);
+            }
+        );
+        $client = m::mock(Client::class);
+        $client->shouldReceive('index')->with('table')->andReturn($index = m::mock(Indexes::class));
+        $index->shouldReceive('rawSearch')->with($query, ['filters' => 'foo=1'])->andReturn($expectedResult = [
+            'hits' => [],
+            'offset' => 0,
+            'limit' => 20,
+            'nbHits' => 0,
+            'exhaustiveNbHits' => false,
+            'processingTimeMs' => 1,
+            'query' => 'mustang',
+        ]);
+
+        $engine = new MeilisearchEngine($client);
+        $result = $engine->search($builder);
+
+        $this->assertSame($expectedResult, $result);
     }
 
     /** @test */
