@@ -13,7 +13,10 @@ class IndexMeilisearch extends Command
      *
      * @var string
      */
-    protected $signature = 'scout:index {--d|delete : Delete an existing index} {--k|key= : The name of primary key} {name : The name of the index}';
+    protected $signature = 'scout:index
+            {--d|delete : Delete an existing index}
+            {--k|key= : The name of primary key}
+            {name : The name of the index}';
 
     /**
      * The console command description.
@@ -29,10 +32,8 @@ class IndexMeilisearch extends Command
      *
      * @return void
      */
-    public function handle()
+    public function handle(Client $client)
     {
-        $client = new Client(config('meilisearch.host'), config('meilisearch.key'));
-
         try {
             if ($this->option('delete')) {
                 $client->deleteIndex($this->argument('name'));

@@ -18,7 +18,7 @@
             "./vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --verbose --config=./.php_cs.dist --diff --show-progress=estimating --using-cache=no"
         ],
         "test": [
-            "./vendor/bin/phpunit --color"
+            "./vendor/bin/phpunit --coverage-text --color"
         ]
     },
     "require": {
@@ -31,7 +31,8 @@
         "orchestra/testbench": "^5.0 || ^6.0",
         "mockery/mockery": "^1.0",
         "phpunit/phpunit": "^9.1",
-        "friendsofphp/php-cs-fixer": "^2.16"
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "guzzlehttp/guzzle": "^7.2"
     },
     "autoload": {
         "psr-4": {
