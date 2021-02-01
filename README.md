@@ -26,26 +26,32 @@
 
 **MeiliSearch** is an open-source search engine. [Discover what MeiliSearch is!](https://github.com/meilisearch/MeiliSearch)
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 
-- [Installation](#installation)
-- [Getting Started](#getting-started)
+- [📖 Documentation](#-documentation)
+- [🔧 Installation](#-installation)
+- [🚀 Getting Started](#-getting-started)
   - [Indexes](#indexes)
   - [Search](#search)
-- [Compatibility with MeiliSearch](#compatibility-with-meilisearch)
-- [Documentation](#documentation)
-- [Additional notes](#additional-notes)
+- [🤖 Compatibility with MeiliSearch](#-compatibility-with-meilisearch)
+- [💡 Learn More](#-learn-more)
 - [Development Workflow and Contributing](#development-workflow-and-contributing)
 
-## Installation
+## 📖 Documentation
 
-### Install the Plugin
+See our [Documentation](https://docs.meilisearch.com/guides/introduction/quick_start_guide.html) or our [API References](https://docs.meilisearch.com/references/).
+
+Also, take a look at the [Wiki](https://github.com/meilisearch/meilisearch-laravel-scout/wiki) of this repository!
+
+## 🔧 Installation
+
+### Install the Plugin <!-- omit in toc -->
 
 ```bash
 $ composer require meilisearch/meilisearch-laravel-scout
 ```
 
-### Install the HTTP Client
+### Install the HTTP Client <!-- omit in toc -->
 
 You could use any [PSR-18](https://www.php-fig.org/psr/psr-18/) compatible client to use with this SDK. No additional configurations are required.<br>
 A list of compatible HTTP clients and client adapters can be found at [php-http.org](http://docs.php-http.org/en/latest/clients.html).
@@ -56,6 +62,7 @@ Guzzle 7:
 ```bash
 $ composer require guzzlehttp/guzzle
 ```
+
 If you already have guzzle installed with a version < 7, don't forget to update the version inside your composer.json
 ```json
 "require": {
@@ -81,21 +88,22 @@ Curl:
 $ composer require php-http/curl-client nyholm/psr7
 ```
 
-### Export configuration
+### Export Configuration <!-- omit in toc -->
 
 ```bash
 $ php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
 $ php artisan vendor:publish --provider="Meilisearch\Scout\MeilisearchServiceProvider" --tag="config"
 ```
 
-### Update .env
+### Update the `.env` file <!-- omit in toc -->
+
 ```dotenv
 SCOUT_DRIVER=meilisearch
 MEILISEARCH_HOST=http://127.0.0.1:7700
 MEILISEARCH_KEY=masterKey
 ```
 
-### Run MeiliSearch
+### Run MeiliSearch <!-- omit in toc -->
 
 There are many easy ways to [download and run a MeiliSearch instance](https://docs.meilisearch.com/guides/advanced_guides/installation.html#download-and-launch).
 
@@ -106,11 +114,11 @@ $ docker run -it --rm -p 7700:7700 getmeili/meilisearch:latest ./meilisearch --m
 
 NB: you can also download MeiliSearch from **Homebrew** or **APT**.
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Indexes
 
-#### Create an index
+#### Create an Index <!-- omit in toc -->
 
 ```bash
 // Create an index
@@ -119,7 +127,7 @@ $ php artisan scout:index books
 $ php artisan scout:index books --key book_id
 ```
 
-#### Add document
+#### Add Documents <!-- omit in toc -->
 
 ```php
 <?php
@@ -151,7 +159,7 @@ You can also import all your table to meilisearch by using the artisan command:
 $ php artisan scout:import "App\Book"
 ```
 
-#### Search in index
+#### Search in an Index <!-- omit in toc -->
 
 ```php
 class BookController extends Controller
@@ -166,7 +174,7 @@ class BookController extends Controller
 }
 ```
 
-#### Delete documents
+#### Delete Documents <!-- omit in toc -->
 
 ```php
 class BookController extends Controller
@@ -187,14 +195,14 @@ or you can use the artisan command to delete all documents from an index:
 $ php artisan scout:flush "App\Book"
 ```
 
-#### Delete an index
+#### Delete an Index <!-- omit in toc -->
 ```bash
 $ php artisan scout:index -d books
 ```
 
 ### Search
 
-#### Custom search
+#### Custom Search <!-- omit in toc -->
 
 All the supported options are described in the [search parameters](https://docs.meilisearch.com/guides/advanced_guides/search_parameters.html) section of the documentation.
 
@@ -212,7 +220,7 @@ class BookController extends Controller
 }
 ```
 
-#### Pagination
+#### Pagination <!-- omit in toc -->
 
 ```php
 class BookController extends Controller
@@ -228,19 +236,22 @@ class BookController extends Controller
 }
 ```
 
-## Compatibility with MeiliSearch
+## 🤖 Compatibility with MeiliSearch
 
 This package only guarantees the compatibility with the [version v0.18.1 of MeiliSearch](https://github.com/meilisearch/MeiliSearch/releases/tag/v0.18.1).
 
-## Documentation
+## 💡 Learn More
 
-See our [Documentation](https://docs.meilisearch.com/guides/introduction/quick_start_guide.html) and the [Wiki](https://github.com/meilisearch/meilisearch-laravel-scout/wiki) of this repository.
+If you're not familiar with MeiliSerach yet, the following sections may interest you:
 
-## Additional notes
+- **Manipulate documents**: see the [API references](https://docs.meilisearch.com/references/documents.html) or read more about [documents](https://docs.meilisearch.com/guides/main_concepts/documents.html).
+- **Search**: see the [API references](https://docs.meilisearch.com/references/search.html) or follow our guide on [search parameters](https://docs.meilisearch.com/guides/advanced_guides/search_parameters.html).
+- **Manage the indexes**: see the [API references](https://docs.meilisearch.com/references/indexes.html) or read more about [indexes](https://docs.meilisearch.com/guides/main_concepts/indexes.html).
+- **Configure the index settings**: see the [API references](https://docs.meilisearch.com/references/settings.html) or follow our guide on [settings parameters](https://docs.meilisearch.com/guides/advanced_guides/settings.html). Also, the [Wiki](https://github.com/meilisearch/meilisearch-laravel-scout/wiki) of this repository will guide you through the configuration!
 
-You can use more advance function by reading the documentation of [MeiliSearch PHP Client](https://github.com/meilisearch/meilisearch-php)
+💡 You can use more advance function by reading the documentation of [MeiliSearch PHP Client](https://github.com/meilisearch/meilisearch-php).
 
-This package is a custom engine of [Laravel Scout](https://laravel.com/docs/master/scout)
+👍 This package is a custom engine of [Laravel Scout](https://laravel.com/docs/master/scout).
 
 ## Development Workflow and Contributing
 
