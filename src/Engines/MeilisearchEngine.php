@@ -5,6 +5,7 @@ namespace Meilisearch\Scout\Engines;
 use Laravel\Scout\Builder;
 use Laravel\Scout\Engines\Engine;
 use MeiliSearch\Client as Meilisearch;
+use MeiliSearch\Search\SearchResult;
 
 class MeilisearchEngine extends Engine
 {
@@ -120,12 +121,14 @@ class MeilisearchEngine extends Engine
         $meilisearch = $this->meilisearch->index($builder->index ?: $builder->model->searchableAs());
 
         if ($builder->callback) {
-            return call_user_func(
+            $result = call_user_func(
                 $builder->callback,
                 $meilisearch,
                 $builder->query,
                 $searchParams
             );
+
+            return $result instanceof SearchResult ? $result->getRaw() : $result;
         }
 
         return $meilisearch->rawSearch($builder->query, $searchParams);
