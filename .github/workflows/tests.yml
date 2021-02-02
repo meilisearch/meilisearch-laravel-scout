@@ -13,7 +13,7 @@ jobs:
   tests:
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4', '8.0']
+        php-versions: ['7.2', '7.3', '7.4', '8.0']
     name: tests (php ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     steps:
