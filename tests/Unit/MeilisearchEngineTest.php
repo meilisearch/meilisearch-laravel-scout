@@ -1,28 +1,20 @@
 <?php
 
-namespace Meilisearch\Scout\Tests;
+namespace Meilisearch\Scout\Tests\Unit;
 
 use Illuminate\Database\Eloquent\Collection;
 use Laravel\Scout\Builder;
-use Laravel\Scout\EngineManager;
 use MeiliSearch\Client;
 use MeiliSearch\Endpoints\Indexes;
 use Meilisearch\Scout\Engines\MeilisearchEngine;
 use Meilisearch\Scout\Tests\Fixtures\SearchableModel;
+use Meilisearch\Scout\Tests\TestCase;
 use MeiliSearch\Search\SearchResult;
 use Mockery as m;
 use stdClass;
 
 class MeilisearchEngineTest extends TestCase
 {
-    /** @test */
-    public function clientAndEngineCanBeResolved()
-    {
-        $this->assertInstanceOf(Client::class, resolve(Client::class));
-        $this->assertInstanceOf(EngineManager::class, resolve(EngineManager::class));
-        $this->assertInstanceOf(MeilisearchEngine::class, resolve(EngineManager::class)->engine('meilisearch'));
-    }
-
     /** @test */
     public function updateAddsObjectsToIndex()
     {

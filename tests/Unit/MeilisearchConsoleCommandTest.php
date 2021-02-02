@@ -1,12 +1,13 @@
 <?php
 
-namespace Meilisearch\Scout\Tests;
+namespace Meilisearch\Scout\Tests\Unit;
 
 use Laravel\Scout\EngineManager;
 use MeiliSearch\Client;
 use MeiliSearch\Endpoints\Indexes;
 use MeiliSearch\Exceptions\HTTPRequestException;
 use Meilisearch\Scout\Engines\MeilisearchEngine;
+use Meilisearch\Scout\Tests\TestCase;
 use Mockery as m;
 
 class MeilisearchConsoleCommandTest extends TestCase
