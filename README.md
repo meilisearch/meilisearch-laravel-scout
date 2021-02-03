@@ -39,7 +39,7 @@
 
 ## 📖 Documentation
 
-See our [Documentation](https://docs.meilisearch.com/learn/tutorials/getting_started.md) or our [API References](https://docs.meilisearch.com/reference/api/).
+See our [Documentation](https://docs.meilisearch.com/learn/tutorials/getting_started.html) or our [API References](https://docs.meilisearch.com/reference/api/).
 
 Also, take a look at the [Wiki](https://github.com/meilisearch/meilisearch-laravel-scout/wiki) of this repository!
 
