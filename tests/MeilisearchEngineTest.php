@@ -138,7 +138,7 @@ class MeilisearchEngineTest extends TestCase
         $engine = new MeilisearchEngine($client);
 
         $results = $engine->mapIds([
-            'hits' => [],
+            'nbHits' => 0, 'hits' => [],
         ]);
 
         $this->assertEquals(0, count($results));
@@ -156,7 +156,7 @@ class MeilisearchEngineTest extends TestCase
         $builder = m::mock(Builder::class);
 
         $results = $engine->map($builder, [
-            'hits' => [
+            'nbHits' => 1, 'hits' => [
                 ['id' => 1],
             ],
         ], $model);
@@ -182,7 +182,7 @@ class MeilisearchEngineTest extends TestCase
         $builder = m::mock(Builder::class);
 
         $results = $engine->map($builder, [
-            'hits' => [
+            'nbHits' => 4, 'hits' => [
                 ['id' => 1],
                 ['id' => 2],
                 ['id' => 4],
