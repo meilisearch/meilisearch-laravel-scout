@@ -16,7 +16,7 @@
 <p align="center">
   <a href="https://packagist.org/packages/meilisearch/meilisearch-laravel-scout"><img src="https://img.shields.io/packagist/v/meilisearch/meilisearch-laravel-scout" alt="Latest Stable Version"></a>
   <a href="https://github.com/meilisearch/meilisearch-laravel-scout/actions"><img src="https://github.com/meilisearch/meilisearch-laravel-scout/workflows/Tests/badge.svg" alt="Actions Status"></a>
-  <a href="https://github.com/meilisearch/meilisearch-laravel-scout/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-informational" alt="License"></a>
+  <a href="https://github.com/meilisearch/meilisearch-laravel-scout/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-informational" alt="License"></a>
   <a href="https://app.bors.tech/repositories/29019"><img src="https://bors.tech/images/badge_small.svg" alt="Bors enabled"></a>
 </p>
 
