@@ -32,6 +32,18 @@ First of all, thank you for contributing to MeiliSearch! The goal of this docume
 $ composer install
 ```
 
+### Start MeiliSearch service <!-- omit in TOC -->
+
+In order to run all Unit and Feature tests, you need to start a MeiliSearch container or a local instance. See [Getting Started](https://github.com/meilisearch/MeiliSearch#getting-started)
+
+#### Docker (recommended) <!-- omit in TOC -->
+
+This will spin up a fresh MeiliSearch instance and will cleanly remove itself after using it.
+
+```bash
+$ docker run --rm -p 7700:7700 getmeili/meilisearch:latest ./meilisearch --no-analytics=true
+```
+
 ### Tests and Linter <!-- omit in TOC -->
 
 Each PR should pass the tests and the linter to be accepted.
