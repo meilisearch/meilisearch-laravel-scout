@@ -18,7 +18,10 @@ abstract class FeatureTestCase extends TestCase
     protected function cleanUp(): void
     {
         collect(resolve(Client::class)->getAllIndexes())->each(function (Indexes $index) {
-            $index->delete();
+            // Starts with prefix
+            if(substr($index->getUid(), 0, strlen($this->getPrefix())) === $this->getPrefix()) {
+                $index->delete();
+            }
         });
     }
 }
