@@ -14,10 +14,9 @@ jobs:
     strategy:
       matrix:
         php-versions: ['7.2', '7.3', '7.4', '8.0']
-        meilisearch-versions: ['latest', 'v0.18.1']
     env:
       MEILISEARCH_KEY: masterKey
-    name: tests (php ${{ matrix.php-versions }}, MeiliSearch ${{ matrix.meilisearch-versions }})
+    name: tests (php ${{ matrix.php-versions }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -30,7 +29,7 @@ jobs:
     - name: Install dependencies
       run: composer update --prefer-dist --no-progress --no-interaction
     - name: MeiliSearch setup with Docker
-      run: docker run -d -p 7700:7700 getmeili/meilisearch:${{ matrix.meilisearch-versions }} ./meilisearch --master-key=${{ env.MEILISEARCH_KEY }} --no-analytics=true
+      run: docker run -d -p 7700:7700 getmeili/meilisearch:latest ./meilisearch --master-key=${{ env.MEILISEARCH_KEY }} --no-analytics=true
     - name: Run tests
       run: composer test
 
