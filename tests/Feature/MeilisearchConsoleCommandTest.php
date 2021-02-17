@@ -2,39 +2,23 @@
 
 namespace Meilisearch\Scout\Tests\Feature;
 
-use Laravel\Scout\EngineManager;
 use MeiliSearch\Client;
 use MeiliSearch\Exceptions\HTTPRequestException;
-use Meilisearch\Scout\Engines\MeilisearchEngine;
 
-class MeilisearchServiceProviderTest extends FeatureTestCase
+class MeilisearchConsoleCommandTest extends FeatureTestCase
 {
     /** @test */
-    public function clientAndEngineCanBeResolved()
+    public function nameArgumentIsRequired()
     {
-        $this->assertInstanceOf(Client::class, resolve(Client::class));
-        $this->assertInstanceOf(EngineManager::class, resolve(EngineManager::class));
-        $this->assertInstanceOf(MeilisearchEngine::class, resolve(EngineManager::class)->engine('meilisearch'));
-    }
-
-    /** @test */
-    public function clientCanTalkToMeilisearch()
-    {
-        /** @var Client $engine */
-        $engine = resolve(Client::class);
-
-        $this->assertNull($engine->health());
-        $versionResponse = $engine->version();
-        $this->assertIsArray($versionResponse);
-        $this->assertArrayHasKey('commitSha', $versionResponse);
-        $this->assertArrayHasKey('buildDate', $versionResponse);
-        $this->assertArrayHasKey('pkgVersion', $versionResponse);
+        $this->expectExceptionMessage('Not enough arguments (missing: "name").');
+        $this->artisan('scout:index')
+            ->execute();
     }
 
     /** @test */
     public function indexCanBeCreatedAndDeleted()
     {
-        $indexName = 'testindex';
+        $indexName = $this->getPrefixedIndexName('testindex');
 
         $this->artisan('scout:index', [
             'name' => $indexName,

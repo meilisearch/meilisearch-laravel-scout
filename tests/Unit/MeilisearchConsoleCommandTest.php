@@ -13,14 +13,6 @@ use Mockery as m;
 class MeilisearchConsoleCommandTest extends TestCase
 {
     /** @test */
-    public function nameArgumentIsRequired()
-    {
-        $this->expectExceptionMessage('Not enough arguments (missing: "name").');
-        $this->artisan('scout:index')
-            ->execute();
-    }
-
-    /** @test */
     public function commandCreatesIndex()
     {
         $client = $this->mock(Client::class);

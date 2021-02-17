@@ -258,6 +258,62 @@ class MeilisearchEngineTest extends TestCase
         $engine = new MeilisearchEngine($client, true);
         $engine->update(Collection::make([new SoftDeleteEmptySearchableModel()]));
     }
+
+    /** @test */
+    public function engineForwardsCallsToMeilisearchClient()
+    {
+        $client = m::mock(Client::class);
+        $client->shouldReceive('testMethodOnClient')->once();
+
+        $engine = new MeilisearchEngine($client);
+        $engine->testMethodOnClient();
+    }
+
+    /** @test */
+    public function updatingEmptyEloquentCollectionDoesNothing()
+    {
+        $client = m::mock(Client::class);
+        $engine = new MeilisearchEngine($client);
+        $engine->update(new Collection());
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function performingSearchWithoutCallbackWorks()
+    {
+        $client = m::mock(Client::class);
+        $client->shouldReceive('index')->once()->andReturn($index = m::mock(Indexes::class));
+        $index->shouldReceive('rawSearch')->once()->andReturn([]);
+
+        $engine = new MeilisearchEngine($client);
+        $builder = new Builder(new SearchableModel(), '');
+        $engine->search($builder);
+    }
+
+    /** @test */
+    public function whereConditionsAreApplied()
+    {
+        $builder = new Builder(new SearchableModel(), '');
+        $builder->where('foo', 'bar');
+        $builder->where('key', 'value');
+        $client = m::mock(Client::class);
+        $client->shouldReceive('index')->once()->andReturn($index = m::mock(Indexes::class));
+        $index->shouldReceive('rawSearch')->once()->with($builder->query, array_filter([
+            'filters' => 'foo="bar" AND key="value"',
+            'limit' => $builder->limit,
+        ]))->andReturn([]);
+
+        $engine = new MeilisearchEngine($client);
+        $engine->search($builder);
+    }
+
+    /** @test */
+    public function engineReturnsHitsEntryFromSearchResponse()
+    {
+        $this->assertTrue(3 === resolve(MeilisearchEngine::class)->getTotalCount([
+            'nbHits' => 3,
+        ]));
+    }
 }
 
 class CustomKeySearchableModel extends SearchableModel

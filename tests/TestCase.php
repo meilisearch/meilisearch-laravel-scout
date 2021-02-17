@@ -7,6 +7,13 @@ use Meilisearch\Scout\MeilisearchServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->loadMigrationsFrom(__DIR__.'/Fixtures/database/migrations');
+    }
+
     protected function getPackageProviders($app)
     {
         return [
@@ -18,16 +25,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function getEnvironmentSetUp($app)
     {
         if (env('DB_CONNECTION')) {
-            $app['config']->set('database.default', env('DB_CONNECTION'));
+            config()->set('database.default', env('DB_CONNECTION'));
         } else {
-            $app['config']->set('database.default', 'testing');
-            $app['config']->set('database.connections.testing', [
-                'driver'   => 'sqlite',
+            config()->set('database.default', 'testing');
+            config()->set('database.connections.testing', [
+                'driver' => 'sqlite',
                 'database' => ':memory:',
-                'prefix'   => '',
+                'prefix' => '',
             ]);
         }
-        $app['config']->set('scout.prefix', $this->getPrefix());
+        config()->set('scout.driver', 'meilisearch');
+        config()->set('scout.prefix', $this->getPrefix());
     }
 
     protected function getPrefixedIndexName(string $indexName)

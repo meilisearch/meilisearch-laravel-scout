@@ -8,6 +8,13 @@ use Meilisearch\Scout\Tests\TestCase;
 
 abstract class FeatureTestCase extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->cleanUp();
+    }
+
     public function tearDown(): void
     {
         $this->cleanUp();
@@ -19,7 +26,7 @@ abstract class FeatureTestCase extends TestCase
     {
         collect(resolve(Client::class)->getAllIndexes())->each(function (Indexes $index) {
             // Starts with prefix
-            if(substr($index->getUid(), 0, strlen($this->getPrefix())) === $this->getPrefix()) {
+            if (substr($index->getUid(), 0, strlen($this->getPrefix())) === $this->getPrefix()) {
                 $index->delete();
             }
         });
