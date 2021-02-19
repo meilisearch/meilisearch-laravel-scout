@@ -16,7 +16,7 @@ jobs:
         php-versions: ['7.2', '7.3', '7.4', '8.0']
     env:
       MEILISEARCH_KEY: masterKey
-    name: tests (php ${{ matrix.php-versions }}
+    name: tests (php ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
