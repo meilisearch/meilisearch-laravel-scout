@@ -2,12 +2,12 @@
 
 namespace Meilisearch\Scout\Tests\Feature;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Scout\EngineManager;
 use MeiliSearch\Client;
 use Meilisearch\Scout\Engines\MeilisearchEngine;
 use Meilisearch\Scout\Tests\Fixtures\SearchableModel as BaseSearchableModel;
-use RuntimeException;
 
 class MeilisearchTest extends FeatureTestCase
 {
@@ -38,12 +38,12 @@ class MeilisearchTest extends FeatureTestCase
     /** @test */
     public function searchReturnsModels()
     {
-        $this->createSearchableModel('foo');
+        $model = $this->createSearchableModel('foo');
         $this->createSearchableModel('bar');
 
         $this->assertDatabaseCount('searchable_models', 2);
 
-        $searchResponse = $this->waitForIndexToUpdate(SearchableModel::class, 2, function () {
+        $searchResponse = $this->waitForPendingUpdates($model, function () {
             return SearchableModel::search('bar')->raw();
         });
 
@@ -61,7 +61,7 @@ class MeilisearchTest extends FeatureTestCase
 
         $this->assertDatabaseCount('searchable_models', 2);
 
-        $searchResponse = $this->waitForIndexToUpdate(SearchableModel::class, 2, function () {
+        $searchResponse = $this->waitForPendingUpdates($fooModel, function () {
             return SearchableModel::search('foo')->raw();
         });
 
@@ -73,15 +73,9 @@ class MeilisearchTest extends FeatureTestCase
 
         $fooModel->update(['title' => 'lorem']);
 
-        $searchResponse = retry(10, function () {
-            $rawSearchResponse = SearchableModel::search('lorem')->raw();
-
-            if (1 === $rawSearchResponse['nbHits']) {
-                return $rawSearchResponse;
-            }
-
-            throw new RuntimeException('Index not updated yet!');
-        }, 100);
+        $searchResponse = $this->waitForPendingUpdates($fooModel, function () {
+            return SearchableModel::search('lorem')->raw();
+        });
 
         $this->assertIsArray($searchResponse);
         $this->assertArrayHasKey('hits', $searchResponse);
@@ -93,11 +87,11 @@ class MeilisearchTest extends FeatureTestCase
     /** @test */
     public function customSearchReturnsResults()
     {
-        $this->createMultipleSearchableModels(10);
+        $models = $this->createMultipleSearchableModels(10);
 
         $this->assertDatabaseCount('searchable_models', 10);
 
-        $searchResponse = $this->waitForIndexToUpdate(SearchableModel::class, 10, function () {
+        $searchResponse = $this->waitForPendingUpdates($models->first(), function () {
             return SearchableModel::search('', function ($meilisearch, $query, $options) {
                 $options['limit'] = 2;
 
@@ -115,29 +109,34 @@ class MeilisearchTest extends FeatureTestCase
     /**
      * Fixes race condition and waits some time for the indexation to complete.
      *
-     * @param string   $model
+     * @param Model    $model
      * @param callable $callback
      *
      * @return mixed
      */
-    protected function waitForIndexToUpdate($modelClass, $expectedIndexSize, $callback)
+    protected function waitForPendingUpdates($model, $callback)
     {
-        return retry(10, function () use ($modelClass, $expectedIndexSize, $callback) {
-            $rawSearchResponse = $modelClass::search('')->raw();
+        $index = resolve(Client::class)->index($model->searchableAs());
+        $pendingUpdates = $index->getAllUpdateStatus();
 
-            if ($rawSearchResponse['nbHits'] === $expectedIndexSize) {
-                return $callback();
+        foreach ($pendingUpdates as $pendingUpdate) {
+            if ('processed' !== $pendingUpdate['status']) {
+                $index->waitForPendingUpdate($pendingUpdate['updateId']);
             }
+        }
 
-            throw new RuntimeException('Index not updated yet!');
-        }, 100);
+        return $callback();
     }
 
-    protected function createMultipleSearchableModels(int $number = 1): void
+    protected function createMultipleSearchableModels(int $times = 1)
     {
-        for ($i = 1; $i <= $number; ++$i) {
-            $this->createSearchableModel();
+        $models = collect();
+
+        for ($i = 1; $i <= $times; ++$i) {
+            $models->add($this->createSearchableModel());
         }
+
+        return $models;
     }
 
     protected function createSearchableModel(?string $title = null)
