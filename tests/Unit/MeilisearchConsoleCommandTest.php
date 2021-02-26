@@ -16,7 +16,7 @@ class MeilisearchConsoleCommandTest extends TestCase
     public function commandCreatesIndex()
     {
         $client = $this->mock(Client::class);
-        $client->expects('createIndex')->with($indexName = 'testindex', [])->andReturn(m::mock(Indexes::class));
+        $client->expects('createIndex')->with($indexUid = 'testindex', [])->andReturn(m::mock(Indexes::class));
 
         $engineManager = $this->mock(EngineManager::class);
         $engineManager->shouldReceive('engine')->with('meilisearch')->andReturn(new MeilisearchEngine(
@@ -24,9 +24,9 @@ class MeilisearchConsoleCommandTest extends TestCase
         ));
 
         $this->artisan('scout:index', [
-            'name' => $indexName,
+            'name' => $indexUid,
         ])
-            ->expectsOutput('Index "'.$indexName.'" created.')
+            ->expectsOutput('Index "'.$indexUid.'" created.')
             ->assertExitCode(0)
             ->run();
     }
@@ -37,7 +37,7 @@ class MeilisearchConsoleCommandTest extends TestCase
         $client = $this->mock(Client::class);
         $client
             ->expects('createIndex')
-            ->with($indexName = 'testindex', ['primaryKey' => $testPrimaryKey = 'foobar'])
+            ->with($indexUid = 'testindex', ['primaryKey' => $testPrimaryKey = 'foobar'])
             ->andReturn(m::mock(Indexes::class));
 
         $engineManager = $this->mock(EngineManager::class);
@@ -46,10 +46,10 @@ class MeilisearchConsoleCommandTest extends TestCase
         ));
 
         $this->artisan('scout:index', [
-            'name' => $indexName,
+            'name' => $indexUid,
             '--key' => $testPrimaryKey,
         ])
-            ->expectsOutput('Index "'.$indexName.'" created.')
+            ->expectsOutput('Index "'.$indexUid.'" created.')
             ->assertExitCode(0)
             ->run();
     }
@@ -58,7 +58,7 @@ class MeilisearchConsoleCommandTest extends TestCase
     public function deleteParameterDeletesIndex()
     {
         $client = $this->mock(Client::class);
-        $client->expects('deleteIndex')->with($indexName = 'testindex')->andReturn([]);
+        $client->expects('deleteIndex')->with($indexUid = 'testindex')->andReturn([]);
 
         $engineManager = $this->mock(EngineManager::class);
         $engineManager->shouldReceive('engine')->with('meilisearch')->andReturn(new MeilisearchEngine(
@@ -66,10 +66,10 @@ class MeilisearchConsoleCommandTest extends TestCase
         ));
 
         $this->artisan('scout:index', [
-            'name' => $indexName,
+            'name' => $indexUid,
             '--delete' => true,
         ])
-            ->expectsOutput('Index "'.$indexName.'" deleted.')
+            ->expectsOutput('Index "'.$indexUid.'" deleted.')
             ->assertExitCode(0)
             ->run();
     }

@@ -18,30 +18,30 @@ class MeilisearchConsoleCommandTest extends FeatureTestCase
     /** @test */
     public function indexCanBeCreatedAndDeleted()
     {
-        $indexName = $this->getPrefixedIndexName('testindex');
+        $indexUid = $this->getPrefixedIndexUid('testindex');
 
         $this->artisan('scout:index', [
-            'name' => $indexName,
+            'name' => $indexUid,
         ])
-            ->expectsOutput('Index "'.$indexName.'" created.')
+            ->expectsOutput('Index "'.$indexUid.'" created.')
             ->assertExitCode(0)
             ->run();
 
-        $indexResponse = resolve(Client::class)->index($indexName)->fetchRawInfo();
+        $indexResponse = resolve(Client::class)->index($indexUid)->fetchRawInfo();
 
         $this->assertIsArray($indexResponse);
-        $this->assertSame($indexName, $indexResponse['uid']);
+        $this->assertSame($indexUid, $indexResponse['uid']);
 
         $this->artisan('scout:index', [
-            'name' => $indexName,
+            'name' => $indexUid,
             '--delete' => true,
         ])
-            ->expectsOutput('Index "'.$indexName.'" deleted.')
+            ->expectsOutput('Index "'.$indexUid.'" deleted.')
             ->assertExitCode(0)
             ->run();
 
         try {
-            resolve(Client::class)->index($indexName)->fetchRawInfo();
+            resolve(Client::class)->index($indexUid)->fetchRawInfo();
             $this->fail('Exception should be thrown that index doesn\'t exist!');
         } catch (HTTPRequestException $exception) {
             $this->assertTrue(true);

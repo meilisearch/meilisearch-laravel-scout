@@ -31,9 +31,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         config()->set('scout.prefix', $this->getPrefix());
     }
 
-    protected function getPrefixedIndexName(string $indexName)
+    protected function getPrefixedIndexUid(string $indexUid)
     {
-        return sprintf('%s_%s', $this->getPrefix(), $indexName);
+        return sprintf('%s_%s', $this->getPrefix(), $indexUid);
     }
 
     protected function getPrefix()
