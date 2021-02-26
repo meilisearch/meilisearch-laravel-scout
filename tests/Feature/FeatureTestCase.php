@@ -2,6 +2,8 @@
 
 namespace Meilisearch\Scout\Tests\Feature;
 
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use MeiliSearch\Client;
 use MeiliSearch\Endpoints\Indexes;
 use Meilisearch\Scout\Tests\TestCase;
@@ -11,6 +13,12 @@ abstract class FeatureTestCase extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        Schema::create('searchable_models', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->timestamps();
+        });
 
         $this->cleanUp();
     }
