@@ -1,29 +1,22 @@
 <?php
 
-namespace Meilisearch\Scout\Tests;
+namespace Meilisearch\Scout\Tests\Unit;
 
 use Laravel\Scout\EngineManager;
 use MeiliSearch\Client;
 use MeiliSearch\Endpoints\Indexes;
 use MeiliSearch\Exceptions\HTTPRequestException;
 use Meilisearch\Scout\Engines\MeilisearchEngine;
+use Meilisearch\Scout\Tests\TestCase;
 use Mockery as m;
 
 class MeilisearchConsoleCommandTest extends TestCase
 {
     /** @test */
-    public function nameArgumentIsRequired()
-    {
-        $this->expectExceptionMessage('Not enough arguments (missing: "name").');
-        $this->artisan('scout:index')
-            ->execute();
-    }
-
-    /** @test */
     public function commandCreatesIndex()
     {
         $client = $this->mock(Client::class);
-        $client->expects('createIndex')->with($indexName = 'testindex', [])->andReturn(m::mock(Indexes::class));
+        $client->expects('createIndex')->with($indexUid = 'testindex', [])->andReturn(m::mock(Indexes::class));
 
         $engineManager = $this->mock(EngineManager::class);
         $engineManager->shouldReceive('engine')->with('meilisearch')->andReturn(new MeilisearchEngine(
@@ -31,9 +24,9 @@ class MeilisearchConsoleCommandTest extends TestCase
         ));
 
         $this->artisan('scout:index', [
-            'name' => $indexName,
+            'name' => $indexUid,
         ])
-            ->expectsOutput('Index "'.$indexName.'" created.')
+            ->expectsOutput('Index "'.$indexUid.'" created.')
             ->assertExitCode(0)
             ->run();
     }
@@ -44,7 +37,7 @@ class MeilisearchConsoleCommandTest extends TestCase
         $client = $this->mock(Client::class);
         $client
             ->expects('createIndex')
-            ->with($indexName = 'testindex', ['primaryKey' => $testPrimaryKey = 'foobar'])
+            ->with($indexUid = 'testindex', ['primaryKey' => $testPrimaryKey = 'foobar'])
             ->andReturn(m::mock(Indexes::class));
 
         $engineManager = $this->mock(EngineManager::class);
@@ -53,10 +46,10 @@ class MeilisearchConsoleCommandTest extends TestCase
         ));
 
         $this->artisan('scout:index', [
-            'name' => $indexName,
+            'name' => $indexUid,
             '--key' => $testPrimaryKey,
         ])
-            ->expectsOutput('Index "'.$indexName.'" created.')
+            ->expectsOutput('Index "'.$indexUid.'" created.')
             ->assertExitCode(0)
             ->run();
     }
@@ -65,7 +58,7 @@ class MeilisearchConsoleCommandTest extends TestCase
     public function deleteParameterDeletesIndex()
     {
         $client = $this->mock(Client::class);
-        $client->expects('deleteIndex')->with($indexName = 'testindex')->andReturn([]);
+        $client->expects('deleteIndex')->with($indexUid = 'testindex')->andReturn([]);
 
         $engineManager = $this->mock(EngineManager::class);
         $engineManager->shouldReceive('engine')->with('meilisearch')->andReturn(new MeilisearchEngine(
@@ -73,10 +66,10 @@ class MeilisearchConsoleCommandTest extends TestCase
         ));
 
         $this->artisan('scout:index', [
-            'name' => $indexName,
+            'name' => $indexUid,
             '--delete' => true,
         ])
-            ->expectsOutput('Index "'.$indexName.'" deleted.')
+            ->expectsOutput('Index "'.$indexUid.'" deleted.')
             ->assertExitCode(0)
             ->run();
     }
