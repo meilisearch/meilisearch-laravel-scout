@@ -61,6 +61,10 @@ class MeilisearchEngine extends Engine
         if (!empty($objects)) {
             $index->addDocuments($objects, $models->first()->getKeyName());
         }
+        
+        if (method_exists($models->first(), 'facetAttributes')) {
+            $index->updateAttributesForFaceting($models->first()->facetAttributes());
+        }
     }
 
     /**
