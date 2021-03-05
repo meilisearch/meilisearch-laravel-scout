@@ -236,6 +236,52 @@ class BookController extends Controller
 }
 ```
 
+#### Attributes for Faceting <!-- omit in toc -->
+
+You can read details of faceting in the [Faceted Search](https://docs.meilisearch.com/reference/features/faceted_search.html#filters-or-facets) section of the documentation.
+
+```php
+<?php
+
+use Laravel\Scout\Searchable;
+
+class Book extends Model
+{
+    use Searchable;
+    
+    //...
+    
+    public function facetAttributes(): array
+    {
+        return [
+            'category',
+            'tags'
+        ];
+    }
+}
+```
+
+And you can use it like:
+
+```php
+<?php
+
+class BookController extends Controller
+{
+    public function customSearch()
+    {
+        Book::search('prince', function (Indexes $meilisearch, $query, $options) {
+            $options['facetFilters'] = ['category:Book'];
+            // OR $options['facetFilters'] = ['category:book', 'tags:horror'];
+
+            return $meilisearch->search($query, $options);
+        })->take(3)->get();
+    }
+}
+```
+
+
+
 ## 🤖 Compatibility with MeiliSearch
 
 This package only guarantees the compatibility with the [version v0.19.0 of MeiliSearch](https://github.com/meilisearch/MeiliSearch/releases/tag/v0.19.0).
