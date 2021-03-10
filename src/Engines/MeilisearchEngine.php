@@ -36,7 +36,7 @@ class MeilisearchEngine extends Engine
      *
      * @return void
      *
-     * @throws \MeiliSearch\Exceptions\HTTPRequestException
+     * @throws \MeiliSearch\Exceptions\ApiException
      */
     public function update($models)
     {
