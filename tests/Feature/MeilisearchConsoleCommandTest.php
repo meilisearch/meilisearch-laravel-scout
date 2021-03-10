@@ -3,7 +3,7 @@
 namespace Meilisearch\Scout\Tests\Feature;
 
 use MeiliSearch\Client;
-use MeiliSearch\Exceptions\HTTPRequestException;
+use MeiliSearch\Exceptions\ApiException;
 
 class MeilisearchConsoleCommandTest extends FeatureTestCase
 {
@@ -43,7 +43,7 @@ class MeilisearchConsoleCommandTest extends FeatureTestCase
         try {
             resolve(Client::class)->index($indexUid)->fetchRawInfo();
             $this->fail('Exception should be thrown that index doesn\'t exist!');
-        } catch (HTTPRequestException $exception) {
+        } catch (ApiException $exception) {
             $this->assertTrue(true);
         }
     }
