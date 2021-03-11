@@ -29,7 +29,7 @@ First of all, thank you for contributing to MeiliSearch! The goal of this docume
 ### Setup <!-- omit in TOC -->
 
 ```bash
-$ composer install
+composer install
 ```
 
 ### Tests and Linter <!-- omit in TOC -->
@@ -38,14 +38,14 @@ Each PR should pass the tests and the linter to be accepted.
 
 ```bash
 # Tests
-$ export MEILISEARCH_KEY='masterKey'
-$ docker pull getmeili/meilisearch:latest # Fetch the latest version of MeiliSearch image from Docker Hub
-$ docker run -p 7700:7700 getmeili/meilisearch:latest ./meilisearch --master-key=masterKey --no-analytics=true
-$ composer test
+export MEILISEARCH_KEY='masterKey'
+docker pull getmeili/meilisearch:latest # Fetch the latest version of MeiliSearch image from Docker Hub
+docker run -p 7700:7700 getmeili/meilisearch:latest ./meilisearch --master-key=masterKey --no-analytics=true
+composer test
 # Linter (with auto-fix)
-$ composer lint:fix
+composer lint:fix
 # Linter (without auto-fix)
-$ composer lint
+composer lint
 ```
 
 ## Git Guidelines
