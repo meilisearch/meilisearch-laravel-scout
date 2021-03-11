@@ -48,7 +48,7 @@ Also, take a look at the [Wiki](https://github.com/meilisearch/meilisearch-larav
 ### Install the Plugin <!-- omit in toc -->
 
 ```bash
-$ composer require meilisearch/meilisearch-laravel-scout
+composer require meilisearch/meilisearch-laravel-scout
 ```
 
 ### Install the HTTP Client <!-- omit in toc -->
@@ -60,7 +60,7 @@ If you use **Laravel 8** you can skip this section as laravel pre-install Guzzle
 
 Guzzle 7:
 ```bash
-$ composer require guzzlehttp/guzzle
+composer require guzzlehttp/guzzle
 ```
 
 If you already have guzzle installed with a version < 7, don't forget to update the version inside your composer.json
@@ -73,26 +73,26 @@ If you already have guzzle installed with a version < 7, don't forget to update 
 Guzzle 6:
 
 ```bash
-$ composer require php-http/guzzle6-adapter
+composer require php-http/guzzle6-adapter
 ```
 
 Symfony Http Client:
 
 ```bash
-$ composer require symfony/http-client nyholm/psr7
+composer require symfony/http-client nyholm/psr7
 ```
 
 Curl:
 
 ```bash
-$ composer require php-http/curl-client nyholm/psr7
+composer require php-http/curl-client nyholm/psr7
 ```
 
 ### Export Configuration <!-- omit in toc -->
 
 ```bash
-$ php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
-$ php artisan vendor:publish --provider="Meilisearch\Scout\MeilisearchServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
+php artisan vendor:publish --provider="Meilisearch\Scout\MeilisearchServiceProvider" --tag="config"
 ```
 
 ### Update the `.env` file <!-- omit in toc -->
@@ -109,7 +109,7 @@ There are many easy ways to [download and run a MeiliSearch instance](https://do
 
 For example, if you use Docker:
 ```bash
-$ docker run -it --rm -p 7700:7700 getmeili/meilisearch:latest ./meilisearch --master-key=masterKey
+docker run -it --rm -p 7700:7700 getmeili/meilisearch:latest ./meilisearch --master-key=masterKey
 ```
 
 NB: you can also download MeiliSearch from **Homebrew** or **APT**.
@@ -122,9 +122,9 @@ NB: you can also download MeiliSearch from **Homebrew** or **APT**.
 
 ```bash
 // Create an index
-$ php artisan scout:index books
+php artisan scout:index books
 // Create an index and give the primary-key
-$ php artisan scout:index books --key book_id
+php artisan scout:index books --key book_id
 ```
 
 #### Add Documents <!-- omit in toc -->
@@ -156,7 +156,7 @@ class BookController extends Controller
 ```
 You can also import all your table to meilisearch by using the artisan command:
 ```bash
-$ php artisan scout:import "App\Book"
+php artisan scout:import "App\Book"
 ```
 
 #### Search in an Index <!-- omit in toc -->
@@ -192,12 +192,12 @@ class BookController extends Controller
 ```
 or you can use the artisan command to delete all documents from an index:
 ```bash
-$ php artisan scout:flush "App\Book"
+php artisan scout:flush "App\Book"
 ```
 
 #### Delete an Index <!-- omit in toc -->
 ```bash
-$ php artisan scout:index -d books
+php artisan scout:index -d books
 ```
 
 ### Search
