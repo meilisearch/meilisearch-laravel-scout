@@ -207,6 +207,8 @@ php artisan scout:index -d books
 All the supported options are described in the [search parameters](https://docs.meilisearch.com/reference/features/search_parameters.html) section of the documentation.
 
 ```php
+use MeiliSearch\Endpoints\Indexes;
+
 class BookController extends Controller
 {
     public function customSearch()
