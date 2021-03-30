@@ -27,7 +27,7 @@ class MeilisearchTest extends FeatureTestCase
         /** @var Client $engine */
         $engine = resolve(Client::class);
 
-        $this->assertNull($engine->health());
+        $this->assertArrayHasKey('status', $engine->health());
         $versionResponse = $engine->version();
         $this->assertIsArray($versionResponse);
         $this->assertArrayHasKey('commitSha', $versionResponse);
