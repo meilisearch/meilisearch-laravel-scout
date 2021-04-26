@@ -21,6 +21,11 @@ class SearchableModel extends Model
         return 'table';
     }
 
+    public function getScoutKeyName()
+    {
+        return 'id';
+    }
+
     public function scoutMetadata()
     {
         return [];
