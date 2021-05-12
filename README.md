@@ -2,7 +2,7 @@
   <img src="https://res.cloudinary.com/meilisearch/image/upload/v1587402338/SDKs/meilisearch_laravel_scout.svg" alt="MeiliSearch Laravel Scout" width="200" height="200" />
 </p>
 
-<h1 align="center">MeiliSearch Laravel Scout</h1>
+<h1 align="center">[DEPRECATED] MeiliSearch Laravel Scout</h1>
 
 <h4 align="center">
   <a href="https://github.com/meilisearch/MeiliSearch">MeiliSearch</a> |
@@ -21,6 +21,12 @@
 </p>
 
 <p align="center">⚡ The MeiliSearch driver for Laravel Scout</p>
+
+---------
+
+⚠️ **This package is deprecated. We recommend you to use [Laravel Scout](https://github.com/laravel/scout) that now supports MeiliSearch.**
+
+---------
 
 **MeiliSearch Laravel Scout** is a **MeiliSearch** driver for Laravel.
 
